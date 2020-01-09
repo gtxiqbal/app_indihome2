@@ -1,4 +1,4 @@
-package com.gtx.app_indihomev2;
+package com.gtx.app_indihomev2.repository;
 
 import com.gtx.app_indihomev2.entity.Pic;
 import org.springframework.data.jpa.repository.JpaRepository;
