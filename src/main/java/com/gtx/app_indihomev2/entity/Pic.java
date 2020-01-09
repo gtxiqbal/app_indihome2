@@ -8,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,4 +28,12 @@ public class Pic {
     @NotEmpty
     @Size(max = 50)
     private String nama;
+
+    @Column(name = "pelanggan_id")
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "pic"
+    )
+    private List<Pelanggan> pelangganId = new ArrayList<>();
 }
