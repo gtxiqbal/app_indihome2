@@ -14,25 +14,43 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table
-public class Pic {
+@Table(name = "ip_gpon")
+public class IpGpon {
 
     @Id
-    @Column(name = "pic_id")
+    @Column(name = "ip_gpon_id")
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String picId;
+    private String ipGponId;
 
     @Column(nullable = false)
     @NotNull
     @NotEmpty
-    @Size(max = 50)
-    private String nama;
+    @Size(max = 30)
+    private String hostname;
+
+    @Column(nullable = false)
+    @NotNull
+    @NotEmpty
+    @Size(min = 7,max = 15)
+    private String ip;
+
+    @Column(nullable = false)
+    @NotNull
+    @NotEmpty
+    @Size(min = 2,max = 6)
+    private String vendor;
+
+    @Column(nullable = false)
+    @NotNull
+    @NotEmpty
+    @Size(min = 4,max = 4)
+    private Integer vlan;
 
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            mappedBy = "picId"
+            mappedBy = "ipGponId"
     )
     private List<Pelanggan> pelangganId = new ArrayList<>();
 }

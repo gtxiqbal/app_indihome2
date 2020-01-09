@@ -14,25 +14,28 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table
-public class Pic {
+@Table(name = "iptv")
+public class Iptv {
 
     @Id
-    @Column(name = "pic_id")
+    @Column(name = "iptv_id")
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String picId;
+    private String iptvId;
+
+    @Column(nullable = false, unique = true)
+    @NotNull
+    @NotEmpty
+    @Size(min = 12,max = 12)
+    private String nomor;
 
     @Column(nullable = false)
     @NotNull
     @NotEmpty
-    @Size(max = 50)
-    private String nama;
+    @Size(min = 7, max = 7)
+    private String password;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            mappedBy = "picId"
-    )
-    private List<Pelanggan> pelangganId = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "pelanggan_id", nullable = false)
+    private Pelanggan pelangganId;
 }

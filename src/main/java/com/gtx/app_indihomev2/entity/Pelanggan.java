@@ -8,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,12 +27,6 @@ public class Pelanggan {
     @NotEmpty
     @Size(max = 50)
     private String nama;
-
-    @Column(name = "ip_gpon_id", nullable = false)
-    @NotNull
-    @NotEmpty
-    @Size(min = 7,max = 15)
-    private String ipGponId;
 
     @Column(name = "slot_port", nullable = false)
     @NotNull
@@ -64,4 +60,21 @@ public class Pelanggan {
     @ManyToOne
     @JoinColumn(name = "pic_id", nullable = false)
     private Pic picId;
+
+    @ManyToOne
+    @JoinColumn(name = "ip_gpon_id", nullable = false)
+    private IpGpon ipGponId;
+
+    @OneToOne(cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "pelangganId"
+    )
+    private Internet internetId;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "pelangganId"
+    )
+    private List<Iptv> iptvId = new ArrayList<>();
 }
