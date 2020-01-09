@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -21,7 +22,7 @@ public class Iptv {
     @Column(name = "iptv_id")
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String iptvId;
+    private UUID iptvId;
 
     @Column(nullable = false, unique = true)
     @NotNull
