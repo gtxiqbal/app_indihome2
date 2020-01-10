@@ -15,14 +15,14 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Table(name = "ip_gpon")
-public class IpGpon {
+@Table(name = "gpon")
+public class Gpon {
 
     @Id
-    @Column(name = "ip_gpon_id")
+    @Column(name = "gpon_id")
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private UUID ipGponId;
+    private UUID gponId;
 
     @Column(nullable = false)
     @NotNull
@@ -51,7 +51,7 @@ public class IpGpon {
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            mappedBy = "ipGponId"
+            mappedBy = "gpon"
     )
     private List<Pelanggan> pelanggan = new ArrayList<>();
 }

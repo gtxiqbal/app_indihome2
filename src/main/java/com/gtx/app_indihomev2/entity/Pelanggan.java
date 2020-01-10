@@ -63,19 +63,19 @@ public class Pelanggan {
     private Pic pic;
 
     @ManyToOne
-    @JoinColumn(name = "ip_gpon_id", nullable = false)
-    private IpGpon ipGpon;
+    @JoinColumn(name = "gpon_id", nullable = false)
+    private Gpon gpon;
 
     @OneToOne(cascade = CascadeType.ALL,
             orphanRemoval = true,
-            mappedBy = "pelangganId"
+            mappedBy = "pelanggan"
     )
     private Internet internet;
 
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            mappedBy = "pelangganId"
+            mappedBy = "pelanggan"
     )
     private List<Iptv> iptv = new ArrayList<>();
 }

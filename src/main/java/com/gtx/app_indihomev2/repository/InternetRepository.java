@@ -1,7 +1,6 @@
 package com.gtx.app_indihomev2.repository;
 
 import com.gtx.app_indihomev2.entity.Internet;
-import com.gtx.app_indihomev2.entity.Pelanggan;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

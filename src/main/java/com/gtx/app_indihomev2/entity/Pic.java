@@ -33,7 +33,7 @@ public class Pic {
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            mappedBy = "picId"
+            mappedBy = "pic"
     )
     private List<Pelanggan> pelanggan = new ArrayList<>();
 }
