@@ -47,11 +47,4 @@ public class Gpon {
     @NotEmpty
     @Size(min = 4,max = 4)
     private Integer vlan;
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            mappedBy = "gpon"
-    )
-    private List<Pelanggan> pelanggan;
 }
