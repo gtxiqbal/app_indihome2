@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PicServiceImpl implements PicService {
@@ -20,7 +21,17 @@ public class PicServiceImpl implements PicService {
     }
 
     @Override
-    public List<Pic> findPicByNama(String nama) {
-        return picRepository.findByNama(nama);
+    public Pic getByPicId(UUID picId) {
+        return picRepository.getByPicId(picId);
+    }
+
+    @Override
+    public Pic getByNama(String nama) {
+        return picRepository.getByNama(nama);
+    }
+
+    @Override
+    public Pic createPic(Pic pic) {
+        return picRepository.save(pic);
     }
 }

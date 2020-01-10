@@ -53,5 +53,5 @@ public class Gpon {
             orphanRemoval = true,
             mappedBy = "gpon"
     )
-    private List<Pelanggan> pelanggan = new ArrayList<>();
+    private List<Pelanggan> pelanggan;
 }

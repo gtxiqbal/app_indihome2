@@ -77,5 +77,5 @@ public class Pelanggan {
             orphanRemoval = true,
             mappedBy = "pelanggan"
     )
-    private List<Iptv> iptv = new ArrayList<>();
+    private List<Iptv> iptv;
 }
