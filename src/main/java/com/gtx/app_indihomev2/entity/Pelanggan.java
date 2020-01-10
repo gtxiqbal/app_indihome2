@@ -60,22 +60,22 @@ public class Pelanggan {
 
     @ManyToOne
     @JoinColumn(name = "pic_id", nullable = false)
-    private Pic picId;
+    private Pic pic;
 
     @ManyToOne
     @JoinColumn(name = "ip_gpon_id", nullable = false)
-    private IpGpon ipGponId;
+    private IpGpon ipGpon;
 
     @OneToOne(cascade = CascadeType.ALL,
             orphanRemoval = true,
             mappedBy = "pelangganId"
     )
-    private Internet internetId;
+    private Internet internet;
 
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             mappedBy = "pelangganId"
     )
-    private List<Iptv> iptvId = new ArrayList<>();
+    private List<Iptv> iptv = new ArrayList<>();
 }

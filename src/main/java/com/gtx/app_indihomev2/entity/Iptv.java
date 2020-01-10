@@ -38,5 +38,5 @@ public class Iptv {
 
     @ManyToOne
     @JoinColumn(name = "pelanggan_id", nullable = false)
-    private Pelanggan pelangganId;
+    private Pelanggan pelanggan;
 }

@@ -26,7 +26,7 @@ public class Internet {
     @OneToOne
     @JoinColumn(name = "pelanggan_id", nullable = false, unique = true)
     @MapsId
-    private Pelanggan pelangganId;
+    private Pelanggan pelanggan;
 
     @Column(nullable = false, unique = true)
     @NotNull

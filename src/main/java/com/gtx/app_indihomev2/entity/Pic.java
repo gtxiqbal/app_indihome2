@@ -35,5 +35,5 @@ public class Pic {
             orphanRemoval = true,
             mappedBy = "picId"
     )
-    private List<Pelanggan> pelangganId = new ArrayList<>();
+    private List<Pelanggan> pelanggan = new ArrayList<>();
 }
