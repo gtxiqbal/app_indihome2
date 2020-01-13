@@ -10,4 +10,8 @@ public interface PicService {
     Pic getByNama(String nama);
     Pic getByPicId(UUID picId);
     Pic createPic(Pic pic);
+    List<Pic> createBatch(List<Pic> pic);
+    Pic updatePic(Pic pic);
+    void deletePic(UUID pic_id);
+    void deletePicByNama(String nama);
 }
