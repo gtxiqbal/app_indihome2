@@ -11,7 +11,8 @@ public interface PicService {
     Pic getByPicId(UUID picId);
     Pic createPic(Pic pic);
     List<Pic> createBatch(List<Pic> pic);
-    Pic updatePic(Pic pic);
+    Pic update(Pic pic);
+    List<Pic> updateBatch(List<Pic> pic);
     void deletePic(UUID pic_id);
     void deletePicByNama(String nama);
 }

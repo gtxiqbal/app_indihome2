@@ -119,7 +119,7 @@ public class PicController {
         response.setMessage("Berhasil Update PIC");
 
         /*Set Data Dari Database*/
-        response.setData(picService.updatePic(pic));
+        response.setData(picService.update(pic));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
