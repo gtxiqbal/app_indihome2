@@ -5,6 +5,7 @@ import com.gtx.app_indihomev2.repository.PicRepository;
 import com.gtx.app_indihomev2.service.PicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.lang.reflect.Array;
@@ -27,21 +28,33 @@ public class PicServiceImpl implements PicService {
     }
 
     @Override
+    public List<Pic> findByPicId(@Validated List picId) {
+        List<Pic> pp = new ArrayList<>();
+        for (Object p : picId) {
+            pp.add((Pic) picRepository.findPicByPicId((UUID) p));
+        }
+        return pp;
+    }
+
+    @Override
     public Pic getByNama(@Validated String nama) {
         return picRepository.getByNama(nama);
     }
 
     @Override
-    public Pic createPic(@Validated Pic pic) {
+    @Transactional
+    public Pic create(@Validated Pic pic) {
         return picRepository.save(pic);
     }
 
     @Override
+    @Transactional
     public List<Pic> createBatch(@Validated List<Pic> pic) {
         return picRepository.saveAll(pic);
     }
 
     @Override
+    @Transactional
     public Pic update(@Validated Pic pic) {
         Pic picSet = picRepository.getByPicId(pic.getPicId());
         picSet.setNama(pic.getNama());
@@ -49,139 +62,35 @@ public class PicServiceImpl implements PicService {
     }
 
     @Override
+    @Transactional
     public List<Pic> updateBatch(List<Pic> pic) {
-        List<Pic> pp = new List<Pic>() {
-            @Override
-            public int size() {
-                return 0;
-            }
+        List<Pic> pp = new ArrayList<>();
 
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean contains(Object o) {
-                return false;
-            }
-
-            @Override
-            public Iterator<Pic> iterator() {
-                return null;
-            }
-
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
-
-            @Override
-            public <T> T[] toArray(T[] ts) {
-                return null;
-            }
-
-            @Override
-            public boolean add(Pic pic) {
-                return false;
-            }
-
-            @Override
-            public boolean remove(Object o) {
-                return false;
-            }
-
-            @Override
-            public boolean containsAll(Collection<?> collection) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(Collection<? extends Pic> collection) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(int i, Collection<? extends Pic> collection) {
-                return false;
-            }
-
-            @Override
-            public boolean removeAll(Collection<?> collection) {
-                return false;
-            }
-
-            @Override
-            public boolean retainAll(Collection<?> collection) {
-                return false;
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public Pic get(int i) {
-                return null;
-            }
-
-            @Override
-            public Pic set(int i, Pic pic) {
-                return null;
-            }
-
-            @Override
-            public void add(int i, Pic pic) {
-
-            }
-
-            @Override
-            public Pic remove(int i) {
-                return null;
-            }
-
-            @Override
-            public int indexOf(Object o) {
-                return 0;
-            }
-
-            @Override
-            public int lastIndexOf(Object o) {
-                return 0;
-            }
-
-            @Override
-            public ListIterator<Pic> listIterator() {
-                return null;
-            }
-
-            @Override
-            public ListIterator<Pic> listIterator(int i) {
-                return null;
-            }
-
-            @Override
-            public List<Pic> subList(int i, int i1) {
-                return null;
-            }
-        }
         for (Pic p : pic) {
-
+            Pic ppp = picRepository.getByPicId(p.getPicId());
+            ppp.setNama(p.getNama());
+            pp.add(ppp);
         }
-        Pic picSet = picRepository.getByPicId(pic.getPicId());
-        picSet.setNama(pic.getNama());
-        return picRepository.saveAll(pic);
+
+        return picRepository.saveAll(pp);
     }
 
     @Override
-    public void deletePic(@Validated UUID pic_id) {
+    @Transactional
+    public void delete(@Validated UUID pic_id) {
         picRepository.deleteById(pic_id);
     }
 
     @Override
-    public void deletePicByNama(@Validated String nama) {
+    @Transactional
+    public void deleteByNama(@Validated String nama) {
         Pic pic_return = picRepository.getByNama(nama);
         picRepository.delete(pic_return);
+    }
+
+    @Override
+    @Transactional
+    public void deleteBatch(@Validated List pic_id) {
+        picRepository.deleteInBatch(pic_id);
     }
 }

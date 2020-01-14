@@ -23,7 +23,7 @@ public class PicController {
     private String service = "Pic";
 
     @GetMapping
-    public ResponseEntity<Response> findPicAll() {
+    public ResponseEntity<Response> findAll() {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -44,7 +44,7 @@ public class PicController {
     }
 
     @GetMapping("/{nama}")
-    public ResponseEntity<Response> getPicNama(@PathVariable("nama") String nama) {
+    public ResponseEntity<Response> getByNama(@PathVariable("nama") String nama) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -65,7 +65,7 @@ public class PicController {
     }
 
     @PostMapping
-    public ResponseEntity<Response> createPic(@RequestBody Pic pic) {
+    public ResponseEntity<Response> create(@RequestBody Pic pic) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -77,7 +77,7 @@ public class PicController {
         response.setMessage("Berhasil Menambah PIC");
 
         /*Set Data Dari Database*/
-        response.setData(picService.createPic(pic));
+        response.setData(picService.create(pic));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -86,7 +86,7 @@ public class PicController {
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<Response> createBatchPic(@RequestBody List<Pic> pic) {
+    public ResponseEntity<Response> createBatch(@RequestBody List<Pic> pic) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -95,7 +95,7 @@ public class PicController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menambah PIC");
+        response.setMessage("Berhasil Menambah Batch");
 
         /*Set Data Dari Database*/
         response.setData(picService.createBatch(pic));
@@ -107,7 +107,7 @@ public class PicController {
     }
 
     @PutMapping
-    public ResponseEntity<Response> updatePic(@RequestBody Pic pic) {
+    public ResponseEntity<Response> update(@RequestBody Pic pic) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -116,7 +116,7 @@ public class PicController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Update PIC");
+        response.setMessage("Berhasil Update");
 
         /*Set Data Dari Database*/
         response.setData(picService.update(pic));
@@ -127,8 +127,29 @@ public class PicController {
                 .body(response);
     }
 
+    @PutMapping("/batch")
+    public ResponseEntity<Response> updateBatch(@RequestBody List<Pic> pic) {
+        /*Informasi Tentang Nama Method*/
+        String nameOfCurrMethod = new Throwable()
+                .getStackTrace()[0]
+                .getMethodName();
+
+        /*Memanggil Class Response yang telah dibuat*/
+        Response response = new Response();
+        response.setService(this.getClass().getName() + nameOfCurrMethod);
+        response.setMessage("Berhasil Update Batch");
+
+        /*Set Data Dari Database*/
+        response.setData(picService.updateBatch(pic));
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
+    }
+
     @DeleteMapping("/{pic_id}")
-    public ResponseEntity<Response> deletePic(@PathVariable("pic_id") UUID pic_id) {
+    public ResponseEntity<Response> delete(@PathVariable("pic_id") UUID pic_id) {
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
@@ -141,7 +162,7 @@ public class PicController {
         /*Set Data Dari Database*/
         response.setData(picService.getByPicId(pic_id));
 
-        picService.deletePic(pic_id);
+        picService.delete(pic_id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -150,7 +171,7 @@ public class PicController {
     }
 
     @DeleteMapping("/nama/{pic_nama}")
-    public ResponseEntity<Response> deletePicNama(@PathVariable("pic_nama") String pic_nama) {
+    public ResponseEntity<Response> deleteByNama(@PathVariable("pic_nama") String pic_nama) {
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
@@ -163,7 +184,30 @@ public class PicController {
         /*Set Data Dari Database*/
         response.setData(picService.getByNama(pic_nama));
 
-        picService.deletePicByNama(pic_nama);
+        picService.deleteByNama(pic_nama);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
+    }
+
+    @DeleteMapping("/batch/[{pic_id}]")
+    public ResponseEntity<Response> deleteBatch(@PathVariable("pic_id") List pic_id) {
+        String nameOfCurrMethod = new Throwable()
+                .getStackTrace()[0]
+                .getMethodName();
+
+        /*Memanggil Class Response yang telah dibuat*/
+        Response response = new Response();
+        response.setService(this.getClass().getName() + nameOfCurrMethod);
+        response.setMessage("Berhasil Menghapus Batch");
+
+        /*Set Data Dari Database*/
+
+        response.setData(picService.findByPicId(pic_id));
+
+        picService.deleteBatch(pic_id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
