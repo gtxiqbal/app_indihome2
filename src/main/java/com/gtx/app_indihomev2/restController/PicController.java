@@ -192,8 +192,8 @@ public class PicController {
                 .body(response);
     }
 
-    @DeleteMapping("/batch/[{pic_id}]")
-    public ResponseEntity<Response> deleteBatch(@PathVariable("pic_id") List pic_id) {
+    @DeleteMapping("/batch/{pic_id}")
+    public ResponseEntity<Response> deleteBatch(@PathVariable("pic_id") UUID[] pic_id) {
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
@@ -204,10 +204,31 @@ public class PicController {
         response.setMessage("Berhasil Menghapus Batch");
 
         /*Set Data Dari Database*/
-
         response.setData(picService.findByPicId(pic_id));
 
         picService.deleteBatch(pic_id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
+    }
+
+    @DeleteMapping("/all")
+    public ResponseEntity<Response> deleteAll() {
+        String nameOfCurrMethod = new Throwable()
+                .getStackTrace()[0]
+                .getMethodName();
+
+        /*Memanggil Class Response yang telah dibuat*/
+        Response response = new Response();
+        response.setService(this.getClass().getName() + nameOfCurrMethod);
+        response.setMessage("Berhasil Menghapus Batch");
+
+        /*Set Data Dari Database*/
+        response.setData(picService.findAll());
+
+        picService.deleteAll();
 
         return ResponseEntity
                 .status(HttpStatus.OK)

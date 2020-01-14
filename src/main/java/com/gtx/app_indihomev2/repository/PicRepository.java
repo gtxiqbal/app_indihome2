@@ -9,7 +9,8 @@ import java.util.UUID;
 
 @Repository
 public interface PicRepository extends JpaRepository<Pic, UUID> {
-    List<Pic> findPicByPicId(UUID picId);
+    List<Pic> findPicByPicIdIn(List<UUID> picId);
     Pic getByPicId(UUID picId);
     Pic getByNama(String nama);
+    void deletePicByPicIdIn(List<UUID> picId);
 }

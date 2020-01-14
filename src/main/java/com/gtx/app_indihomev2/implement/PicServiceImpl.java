@@ -28,12 +28,8 @@ public class PicServiceImpl implements PicService {
     }
 
     @Override
-    public List<Pic> findByPicId(@Validated List picId) {
-        List<Pic> pp = new ArrayList<>();
-        for (Object p : picId) {
-            pp.add((Pic) picRepository.findPicByPicId((UUID) p));
-        }
-        return pp;
+    public List<Pic> findByPicId(@Validated UUID[] picId) {
+        return picRepository.findPicByPicIdIn(Arrays.asList(picId));
     }
 
     @Override
@@ -41,28 +37,28 @@ public class PicServiceImpl implements PicService {
         return picRepository.getByNama(nama);
     }
 
-    @Override
     @Transactional
+    @Override
     public Pic create(@Validated Pic pic) {
         return picRepository.save(pic);
     }
 
-    @Override
     @Transactional
+    @Override
     public List<Pic> createBatch(@Validated List<Pic> pic) {
         return picRepository.saveAll(pic);
     }
 
-    @Override
     @Transactional
+    @Override
     public Pic update(@Validated Pic pic) {
         Pic picSet = picRepository.getByPicId(pic.getPicId());
         picSet.setNama(pic.getNama());
         return picRepository.save(picSet);
     }
 
-    @Override
     @Transactional
+    @Override
     public List<Pic> updateBatch(List<Pic> pic) {
         List<Pic> pp = new ArrayList<>();
 
@@ -75,22 +71,28 @@ public class PicServiceImpl implements PicService {
         return picRepository.saveAll(pp);
     }
 
-    @Override
     @Transactional
+    @Override
     public void delete(@Validated UUID pic_id) {
         picRepository.deleteById(pic_id);
     }
 
-    @Override
     @Transactional
+    @Override
     public void deleteByNama(@Validated String nama) {
         Pic pic_return = picRepository.getByNama(nama);
         picRepository.delete(pic_return);
     }
 
-    @Override
     @Transactional
-    public void deleteBatch(@Validated List pic_id) {
-        picRepository.deleteInBatch(pic_id);
+    @Override
+    public void deleteBatch(@Validated UUID[] pic_id) {
+        picRepository.deletePicByPicIdIn(Arrays.asList(pic_id));
+    }
+
+    @Transactional
+    @Override
+    public void deleteAll() {
+        picRepository.deleteAll();
     }
 }

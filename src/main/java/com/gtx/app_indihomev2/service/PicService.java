@@ -11,12 +11,15 @@ public interface PicService {
     List<Pic> findAll();
     Pic getByNama(String nama);
     Pic getByPicId(UUID picId);
-    List<Pic> findByPicId(List picId);
+    List<Pic> findByPicId(UUID[] picId);
+
     Pic create(Pic pic);
     List<Pic> createBatch(List<Pic> pic);
     Pic update(Pic pic);
     List<Pic> updateBatch(List<Pic> pic);
+
     void delete(UUID pic_id);
     void deleteByNama(String nama);
-    void deleteBatch(List pic_id);
+    void deleteBatch(UUID[] pic_id);
+    void deleteAll();
 }
