@@ -1,10 +1,8 @@
 package com.gtx.app_indihomev2.service;
 
 import com.gtx.app_indihomev2.entity.Pic;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public interface PicService {
