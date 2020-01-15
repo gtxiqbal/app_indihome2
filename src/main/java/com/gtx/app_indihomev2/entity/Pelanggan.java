@@ -50,6 +50,10 @@ public class Pelanggan {
     @Column(nullable = false)
     @NotNull
     @NotEmpty
+    @Size(max = 25)
+    private String paket;
+
+    @Column(nullable = false)
     private Float harga;
 
     @Column(nullable = false)

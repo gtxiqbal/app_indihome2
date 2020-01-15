@@ -1,7 +1,8 @@
 package com.gtx.app_indihomev2.restController;
 
 import com.gtx.app_indihomev2.entity.Gpon;
-import com.gtx.app_indihomev2.service.GponService;
+import com.gtx.app_indihomev2.entity.Pelanggan;
+import com.gtx.app_indihomev2.service.PelangganService;
 import com.gtx.app_indihomev2.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,13 +14,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/rest/gpon")
-public class GponController {
+@RequestMapping(value = "/rest/pelanggan")
+public class PelangganController {
 
     @Autowired
-    private GponService gponService;
+    private PelangganService pelangganService;
 
-    private String service = "Gpon";
+    private String service = "Pelanggan";
 
     @GetMapping
     public ResponseEntity<Response> findAll() {
@@ -31,10 +32,10 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menampilkan Seluruh Data GPON");
+        response.setMessage("Berhasil Menampilkan Seluruh Data Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.findAll());
+        response.setData(pelangganService.findAll());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -42,8 +43,8 @@ public class GponController {
                 .body(response);
     }
 
-    @GetMapping("/hostname/{hostname}")
-    public ResponseEntity<Response> getByHostname(@PathVariable("hostname") String hostname) {
+    @GetMapping("/nama/{nama}")
+    public ResponseEntity<Response> getByNama(@PathVariable("nama") String nama) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -52,10 +53,10 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menampilkan GPON berdasarkan Hostname");
+        response.setMessage("Berhasil Menampilkan Pelanggan berdasarkan Nama");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.getByHostname(hostname));
+        response.setData(pelangganService.getByNama(nama));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -63,8 +64,8 @@ public class GponController {
                 .body(response);
     }
 
-    @GetMapping("/ip/{ip}")
-    public ResponseEntity<Response> getByIp(@PathVariable("ip") String ip) {
+    @GetMapping("/sn/{sn}")
+    public ResponseEntity<Response> getBySn(@PathVariable("sn") String sn) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -73,10 +74,10 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menampilkan GPON berdasarkan IP GPON");
+        response.setMessage("Berhasil Menampilkan Pelanggan berdasarkan Serial Number ONT");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.getByIp(ip));
+        response.setData(pelangganService.getBySn(sn));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -85,7 +86,7 @@ public class GponController {
     }
 
     @PostMapping
-    public ResponseEntity<Response> create(@RequestBody Gpon gpon) {
+    public ResponseEntity<Response> create(@RequestBody Pelanggan pelanggan) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -94,10 +95,10 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menambah GPON");
+        response.setMessage("Berhasil Menambah Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.create(gpon));
+        response.setData(pelangganService.create(pelanggan));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -106,7 +107,7 @@ public class GponController {
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<Response> createBatch(@RequestBody List<Gpon> gpon) {
+    public ResponseEntity<Response> createBatch(@RequestBody List<Pelanggan> pelanggan) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -115,10 +116,10 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menambah Batch GPON");
+        response.setMessage("Berhasil Menambah Batch Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.createBatch(gpon));
+        response.setData(pelangganService.createBatch(pelanggan));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -127,7 +128,7 @@ public class GponController {
     }
 
     @PutMapping
-    public ResponseEntity<Response> update(@RequestBody Gpon gpon) {
+    public ResponseEntity<Response> update(@RequestBody Pelanggan pelanggan) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -136,10 +137,10 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Update GPON");
+        response.setMessage("Berhasil Update Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.update(gpon));
+        response.setData(pelangganService.update(pelanggan));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -148,7 +149,7 @@ public class GponController {
     }
 
     @PutMapping("/batch")
-    public ResponseEntity<Response> updateBatch(@RequestBody List<Gpon> gpon) {
+    public ResponseEntity<Response> updateBatch(@RequestBody List<Pelanggan> pelanggan) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -157,10 +158,10 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Update Batch GPON");
+        response.setMessage("Berhasil Update Batch Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.updateBatch(gpon));
+        response.setData(pelangganService.updateBatch(pelanggan));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -168,8 +169,8 @@ public class GponController {
                 .body(response);
     }
 
-    @DeleteMapping("/{gponId}")
-    public ResponseEntity<Response> delete(@PathVariable("gponId") UUID gponId) {
+    @DeleteMapping("/{pelangganId}")
+    public ResponseEntity<Response> delete(@PathVariable("pelangganId") UUID pelangganId) {
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
@@ -177,12 +178,12 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menghapus GPON");
+        response.setMessage("Berhasil Menghapus Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.getByGponId(gponId));
+        response.setData(pelangganService.getByPelangganId(pelangganId));
 
-        gponService.delete(gponId);
+        pelangganService.delete(pelangganId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -190,8 +191,8 @@ public class GponController {
                 .body(response);
     }
 
-    @DeleteMapping("/hostname/{hostname}")
-    public ResponseEntity<Response> deleteByHostname(@PathVariable("hostname") String hostname) {
+    @DeleteMapping("/nama/{nama}")
+    public ResponseEntity<Response> deleteByNama(@PathVariable("nama") String nama) {
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
@@ -199,12 +200,12 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menghapus GPON");
+        response.setMessage("Berhasil Menghapus Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.getByHostname(hostname));
+        response.setData(pelangganService.getByNama(nama));
 
-        gponService.deleteByHostname(hostname);
+        pelangganService.deleteByNama(nama);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -212,8 +213,8 @@ public class GponController {
                 .body(response);
     }
 
-    @DeleteMapping("/ip/{ip}")
-    public ResponseEntity<Response> deleteByIp(@PathVariable("ip") String ip) {
+    @DeleteMapping("/sn/{sn}")
+    public ResponseEntity<Response> deleteBySn(@PathVariable("sn") String sn) {
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
@@ -221,12 +222,12 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menghapus GPON");
+        response.setMessage("Berhasil Menghapus Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.getByIp(ip));
+        response.setData(pelangganService.getBySn(sn));
 
-        gponService.deleteByIp(ip);
+        pelangganService.deleteBySn(sn);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -234,8 +235,8 @@ public class GponController {
                 .body(response);
     }
 
-    @DeleteMapping("/batch/{gponId}")
-    public ResponseEntity<Response> deleteBatch(@PathVariable("gponId") UUID[] gponId) {
+    @DeleteMapping("/batch/{pelangganId}")
+    public ResponseEntity<Response> deleteBatch(@PathVariable("pelangganId") UUID[] pelangganId) {
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
@@ -243,12 +244,12 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menghapus Batch GPON");
+        response.setMessage("Berhasil Menghapus Batch Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.findByGponId(gponId));
+        response.setData(pelangganService.findByPelangganId(pelangganId));
 
-        gponService.deleteBatch(gponId);
+        pelangganService.deleteBatch(pelangganId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -256,8 +257,8 @@ public class GponController {
                 .body(response);
     }
 
-    @DeleteMapping("/batch/ip/{ip}")
-    public ResponseEntity<Response> deleteBatchIp(@PathVariable("ip") String[] ip) {
+    @DeleteMapping("/batch/nama/{nama}")
+    public ResponseEntity<Response> deleteBatchNama(@PathVariable("nama") String[] nama) {
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
@@ -265,12 +266,34 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menghapus Batch GPON");
+        response.setMessage("Berhasil Menghapus Batch Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.findByGponIp(ip));
+        response.setData(pelangganService.findByNama(nama));
 
-        gponService.deleteBatchIp(ip);
+        pelangganService.deleteBatchNama(nama);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
+    }
+
+    @DeleteMapping("/batch/sn/{sn}")
+    public ResponseEntity<Response> deleteBatchSn(@PathVariable("sn") String[] sn) {
+        String nameOfCurrMethod = new Throwable()
+                .getStackTrace()[0]
+                .getMethodName();
+
+        /*Memanggil Class Response yang telah dibuat*/
+        Response response = new Response();
+        response.setService(this.getClass().getName() + nameOfCurrMethod);
+        response.setMessage("Berhasil Menghapus Batch Pelanggan");
+
+        /*Set Data Dari Database*/
+        response.setData(pelangganService.findBySn(sn));
+
+        pelangganService.deleteBatchSn(sn);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -287,12 +310,12 @@ public class GponController {
         /*Memanggil Class Response yang telah dibuat*/
         Response response = new Response();
         response.setService(this.getClass().getName() + nameOfCurrMethod);
-        response.setMessage("Berhasil Menghapus Semua Data GPON");
+        response.setMessage("Berhasil Menghapus Semua Data Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(gponService.findAll());
+        response.setData(pelangganService.findAll());
 
-        gponService.deleteAll();
+        pelangganService.deleteAll();
 
         return ResponseEntity
                 .status(HttpStatus.OK)

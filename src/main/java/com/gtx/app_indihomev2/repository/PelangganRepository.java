@@ -10,10 +10,17 @@ import java.util.UUID;
 @Repository
 public interface PelangganRepository extends JpaRepository<Pelanggan, UUID> {
     Pelanggan getPelangganByPelangganId(UUID id);
+    List<Pelanggan> findPelangganByPelangganIdIn(List<UUID> pelangganId);
     Pelanggan getPelangganByNama(String nama);
+    List<Pelanggan> findPelangganByNamaIn(List<String> nama);
     List<Pelanggan> findPelangganByPicNama(String picNama);
     Pelanggan getPelangganByInternetNomor(String nomor);
     Pelanggan getPelangganByIptvNomor(String nomor);
     Pelanggan getPelangganBySnOnt(String snOnt);
-    Pelanggan findPelangganByStatus(String status);
+    List<Pelanggan> findPelangganBySnOntIn(List<String> sn);
+    List<Pelanggan> findPelangganByStatus(String status);
+
+    void deletePelangganByPelangganIdIn(List<UUID> pelangganID);
+    void deletePelangganByNamaIn(List<String> nama);
+    void deletePelangganBySnOntIn(List<String> sn);
 }
