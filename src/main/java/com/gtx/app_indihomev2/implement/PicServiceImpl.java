@@ -1,8 +1,10 @@
 package com.gtx.app_indihomev2.implement;
 
+import com.gtx.app_indihomev2.entity.Pelanggan;
 import com.gtx.app_indihomev2.entity.Pic;
 import com.gtx.app_indihomev2.repository.PicRepository;
 import com.gtx.app_indihomev2.service.PicService;
+import com.gtx.app_indihomev2.util.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,36 +19,38 @@ public class PicServiceImpl implements PicService {
     @Autowired
     PicRepository picRepository;
 
+    private Check check = new Check();
+
     @Override
     public List<Pic> findAll() {
-        return picRepository.findAll();
+        return check.infinitePic(picRepository.findAll());
     }
 
     @Override
     public Pic getByPicId(@Validated UUID picId) {
-        return picRepository.getByPicId(picId);
+        return check.getInfinitePic(picRepository.getByPicId(picId));
     }
 
     @Override
     public List<Pic> findByPicId(@Validated UUID[] picId) {
-        return picRepository.findPicByPicIdIn(Arrays.asList(picId));
+        return check.infinitePic(picRepository.findPicByPicIdIn(Arrays.asList(picId)));
     }
 
     @Override
     public Pic getByNama(@Validated String nama) {
-        return picRepository.getByNama(nama);
+        return check.getInfinitePic(picRepository.getByNama(nama));
     }
 
     @Transactional
     @Override
     public Pic create(@Validated Pic pic) {
-        return picRepository.save(pic);
+        return check.getInfinitePic(picRepository.save(pic));
     }
 
     @Transactional
     @Override
     public List<Pic> createBatch(@Validated List<Pic> pic) {
-        return picRepository.saveAll(pic);
+        return check.infinitePic(picRepository.saveAll(pic));
     }
 
     @Transactional
@@ -54,7 +58,7 @@ public class PicServiceImpl implements PicService {
     public Pic update(@Validated Pic pic) {
         Pic picSet = picRepository.getByPicId(pic.getPicId());
         picSet.setNama(pic.getNama());
-        return picRepository.save(picSet);
+        return check.getInfinitePic(picRepository.save(picSet));
     }
 
     @Transactional
@@ -68,7 +72,7 @@ public class PicServiceImpl implements PicService {
             pp.add(ppp);
         }
 
-        return picRepository.saveAll(pp);
+        return check.infinitePic(picRepository.saveAll(pp));
     }
 
     @Transactional

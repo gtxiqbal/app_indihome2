@@ -1,5 +1,6 @@
 package com.gtx.app_indihomev2.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -29,6 +30,7 @@ public class Pic {
     @NotEmpty
     @Size(max = 50)
     private String nama;
+
 
     @OneToMany(
             cascade = CascadeType.ALL,

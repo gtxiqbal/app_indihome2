@@ -3,6 +3,7 @@ package com.gtx.app_indihomev2.implement;
 import com.gtx.app_indihomev2.entity.Pelanggan;
 import com.gtx.app_indihomev2.repository.PelangganRepository;
 import com.gtx.app_indihomev2.service.PelangganService;
+import com.gtx.app_indihomev2.util.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,39 +20,41 @@ public class PelangganServiceImpl implements PelangganService {
     @Autowired
     private PelangganRepository pelangganRepository;
 
+    private Check check = new Check();
+
     @Override
     public List<Pelanggan> findAll() {
-        return pelangganRepository.findAll();
+        return check.infinitePelanggan(pelangganRepository.findAll());
     }
 
     @Override
     public Pelanggan getByNama(@Validated String nama) {
-        return pelangganRepository.getPelangganByNama(nama);
+        return check.getInfinitePelanggan(pelangganRepository.getPelangganByNama(nama));
     }
 
     @Override
     public Pelanggan getBySn(@Validated String sn) {
-        return pelangganRepository.getPelangganBySnOnt(sn);
+        return check.getInfinitePelanggan(pelangganRepository.getPelangganBySnOnt(sn));
     }
 
     @Override
     public List<Pelanggan> findBySn(@Validated String[] sn) {
-        return pelangganRepository.findPelangganBySnOntIn(Arrays.asList(sn));
+        return check.infinitePelanggan(pelangganRepository.findPelangganBySnOntIn(Arrays.asList(sn)));
     }
 
     @Override
     public List<Pelanggan> findByNama(@Validated String[] nama) {
-        return pelangganRepository.findPelangganByNamaIn(Arrays.asList(nama));
+        return check.infinitePelanggan(pelangganRepository.findPelangganByNamaIn(Arrays.asList(nama)));
     }
 
     @Override
     public Pelanggan getByPelangganId(@Validated UUID pelangganId) {
-        return pelangganRepository.getPelangganByPelangganId(pelangganId);
+        return check.getInfinitePelanggan(pelangganRepository.getPelangganByPelangganId(pelangganId));
     }
 
     @Override
     public List<Pelanggan> findByPelangganId(@Validated UUID[] pelangganId) {
-        return pelangganRepository.findPelangganByPelangganIdIn(Arrays.asList(pelangganId));
+        return check.infinitePelanggan(pelangganRepository.findPelangganByPelangganIdIn(Arrays.asList(pelangganId)));
     }
 
     @Override
@@ -62,13 +65,13 @@ public class PelangganServiceImpl implements PelangganService {
     @Transactional
     @Override
     public Pelanggan create(@Validated Pelanggan pelanggan) {
-        return pelangganRepository.save(pelanggan);
+        return check.getInfinitePelanggan(pelangganRepository.save(pelanggan));
     }
 
     @Transactional
     @Override
     public List<Pelanggan> createBatch(@Validated List<Pelanggan> pelanggan) {
-        return pelangganRepository.saveAll(pelanggan);
+        return check.infinitePelanggan(pelangganRepository.saveAll(pelanggan));
     }
 
     @Transactional
@@ -82,7 +85,7 @@ public class PelangganServiceImpl implements PelangganService {
         pelSet.setPaket(pelanggan.getPaket());
         pelSet.setHarga(pelanggan.getHarga());
         pelSet.setStatus(pelanggan.getStatus());
-        return pelangganRepository.save(pelSet);
+        return check.getInfinitePelanggan(pelangganRepository.save(pelSet));
     }
 
     @Transactional
@@ -101,7 +104,7 @@ public class PelangganServiceImpl implements PelangganService {
             ppp.setStatus(p.getStatus());
             pp.add(ppp);
         }
-        return pelangganRepository.saveAll(pp);
+        return check.infinitePelanggan(pelangganRepository.saveAll(pp));
     }
 
     @Transactional

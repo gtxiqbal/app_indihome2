@@ -1,9 +1,9 @@
 package com.gtx.app_indihomev2.implement;
 
 import com.gtx.app_indihomev2.entity.Gpon;
-import com.gtx.app_indihomev2.entity.Pic;
 import com.gtx.app_indihomev2.repository.GponRepository;
 import com.gtx.app_indihomev2.service.GponService;
+import com.gtx.app_indihomev2.util.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +20,11 @@ public class GponServiceImpl implements GponService {
     @Autowired
     private GponRepository gponRepository;
 
+    private Check check = new Check();
+
     @Override
     public List<Gpon> findAll() {
-        return gponRepository.findAll();
+        return check.infiniteGpon(gponRepository.findAll());
     }
 
     @Override

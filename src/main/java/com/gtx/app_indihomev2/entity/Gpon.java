@@ -1,5 +1,6 @@
 package com.gtx.app_indihomev2.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -44,4 +45,11 @@ public class Gpon {
 
     @Column(nullable = false)
     private Integer vlan;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "gpon"
+    )
+    private List<Pelanggan> pelanggan;
 }
