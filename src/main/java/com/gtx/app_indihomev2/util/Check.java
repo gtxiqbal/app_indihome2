@@ -102,12 +102,14 @@ public class Check {
         if (repoPelanggan != null) {
             repoPelanggan.getGpon().setPelanggan(null);
             repoPelanggan.getPic().setPelanggan(null);
+            System.out.println("Test ok 1");
             if (repoPelanggan.getInternet() != null) repoPelanggan.getInternet().setPelanggan(null);
-            if (repoPelanggan.getIptv().size() > 0) {
-                for (Iptv iptv : repoPelanggan.getIptv()) {
+            System.out.println("Test ok 2");
+            if (repoPelanggan.getIptv().size() > 0 || repoPelanggan.getIptv() != null) repoPelanggan.getIptv().forEach(iptv -> iptv.setPelanggan(null));
+                /*for (Iptv iptv : repoPelanggan.getIptv()) {
                     iptv.setPelanggan(null);
-                }
-            }
+                }*/
+            System.out.println("Test ok 3");
         }
         return repoPelanggan;
     }

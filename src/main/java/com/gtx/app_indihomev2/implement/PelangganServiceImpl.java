@@ -1,5 +1,7 @@
 package com.gtx.app_indihomev2.implement;
 
+import com.gtx.app_indihomev2.entity.Internet;
+import com.gtx.app_indihomev2.entity.Iptv;
 import com.gtx.app_indihomev2.entity.Pelanggan;
 import com.gtx.app_indihomev2.repository.PelangganRepository;
 import com.gtx.app_indihomev2.service.PelangganService;
@@ -65,7 +67,48 @@ public class PelangganServiceImpl implements PelangganService {
     @Transactional
     @Override
     public Pelanggan create(@Validated Pelanggan p) {
-        return pelangganRepository.save(p);
+        Pelanggan pelanggan = new Pelanggan(
+                p.getNama(),
+                p.getPaket(),
+                p.getHarga(),
+                p.getStatus(),
+                p.getPic(),
+                p.getGpon(),
+                p.getSlotPort(),
+                p.getOnuId(),
+                p.getSnOnt()
+        );
+
+        if (p.getInternet() != null) {
+            Internet internet = new Internet(
+                    p.getInternet().getNomor(),
+                    p.getInternet().getPassword()
+            );
+            internet.setPelanggan(pelanggan);
+            pelanggan.setInternet(internet);
+        }
+
+        if (p.getIptv() != null) {
+            List<Iptv> tvList = new ArrayList<>();
+            for (Iptv iptv : p.getIptv()) {
+                Iptv tv = new Iptv(
+                        iptv.getNomor(),
+                        iptv.getPassword()
+                );
+                tv.setPelanggan(pelanggan);
+                tvList.add(tv);
+            }
+            pelanggan.setIptv(tvList);
+        }
+
+        Pelanggan pelangganSave = pelangganRepository.save(pelanggan);
+        /*if (p.getInternet() != null) pelangganSave.getInternet().setPelanggan(null);
+        if (p.getIptv() != null) {
+            for (Iptv iptv : p.getIptv()) {
+                iptv.getByPelangganIdsetPelanggan(null);
+            }
+        }*/
+        return pelangganSave;
     }
 
     @Transactional

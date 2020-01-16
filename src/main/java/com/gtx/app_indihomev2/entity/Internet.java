@@ -30,7 +30,7 @@ public class Internet implements Serializable {
     @Column(nullable = false, unique = true)
     @NotNull
     @NotEmpty
-    @Size(min = 12,max = 12)
+    @Size(max = 12)
     private String nomor;
 
     @Column(nullable = false)

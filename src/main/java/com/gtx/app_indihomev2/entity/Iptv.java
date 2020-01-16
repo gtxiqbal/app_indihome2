@@ -26,7 +26,7 @@ public class Iptv implements Serializable {
     @Column(nullable = false, unique = true)
     @NotNull
     @NotEmpty
-    @Size(min = 12,max = 12)
+    @Size(min=12, max = 14)
     private String nomor;
 
     @Column(nullable = false)
@@ -46,5 +46,15 @@ public class Iptv implements Serializable {
     public Iptv(String nomor, String password) {
         this.nomor = nomor;
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Iptv{" +
+                "iptvId=" + iptvId +
+                ", nomor='" + nomor + '\'' +
+                ", password='" + password + '\'' +
+                ", pelanggan=" + pelanggan +
+                '}';
     }
 }

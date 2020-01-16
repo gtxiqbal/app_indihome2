@@ -86,23 +86,13 @@ public class Pelanggan implements Serializable {
     public Pelanggan() {
     }
 
-    public Pelanggan(String nama, String paket, Float harga, String status) {
-        this.nama = nama;
-        this.paket = paket;
-        this.harga = harga;
-        this.status = status;
-        this.slotPort = "0/0";
-        this.onuId = "0";
-        this.snOnt = "99";
-    }
-
     public Pelanggan(String nama, String paket, Float harga, String status, Pic pic, Gpon gpon,  String slotPort, String onuId, String snOnt) {
         this.nama = nama;
         this.paket = paket;
         this.harga = harga;
         this.status = status;
-        this.pic.setPicId(pic.getPicId());
-        this.gpon.setGponId(gpon.getGponId());
+        this.pic = pic;
+        this.gpon = gpon;
         this.slotPort = slotPort;
         this.onuId = onuId;
         this.snOnt = snOnt;

@@ -119,7 +119,9 @@ public class PelangganController {
         response.setMessage("Berhasil Menambah Pelanggan");
 
         /*Set Data Dari Database*/
-        response.setData(pelangganService.create(pelanggan));
+        Pelanggan pp = pelangganService.create(pelanggan);
+
+        response.setData(pelangganService.getByPelangganId(pp.getPelangganId()));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
