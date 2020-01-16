@@ -64,6 +64,27 @@ public class PelangganController {
                 .body(response);
     }
 
+    @GetMapping("/id/{pelangganId}")
+    public ResponseEntity<Response> getById(@PathVariable("pelangganId") UUID pelangganId) {
+        /*Informasi Tentang Nama Method*/
+        String nameOfCurrMethod = new Throwable()
+                .getStackTrace()[0]
+                .getMethodName();
+
+        /*Memanggil Class Response yang telah dibuat*/
+        Response response = new Response();
+        response.setService(this.getClass().getName() + nameOfCurrMethod);
+        response.setMessage("Berhasil Menampilkan Pelanggan berdasarkan ID");
+
+        /*Set Data Dari Database*/
+        response.setData(pelangganService.getByPelangganId(pelangganId));
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
+    }
+
     @GetMapping("/sn/{sn}")
     public ResponseEntity<Response> getBySn(@PathVariable("sn") String sn) {
         /*Informasi Tentang Nama Method*/

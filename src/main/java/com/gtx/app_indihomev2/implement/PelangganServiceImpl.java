@@ -59,33 +59,33 @@ public class PelangganServiceImpl implements PelangganService {
 
     @Override
     public List<Pelanggan> findByStatus(@Validated String status) {
-        return pelangganRepository.findPelangganByStatus(status);
+        return check.infinitePelanggan(pelangganRepository.findPelangganByStatus(status));
     }
 
     @Transactional
     @Override
-    public Pelanggan create(@Validated Pelanggan pelanggan) {
-        return check.getInfinitePelanggan(pelangganRepository.save(pelanggan));
+    public Pelanggan create(@Validated Pelanggan p) {
+        return pelangganRepository.save(p);
     }
 
     @Transactional
     @Override
     public List<Pelanggan> createBatch(@Validated List<Pelanggan> pelanggan) {
-        return check.infinitePelanggan(pelangganRepository.saveAll(pelanggan));
+        return pelangganRepository.saveAll(pelanggan);
     }
 
     @Transactional
     @Override
-    public Pelanggan update(@Validated Pelanggan pelanggan) {
-        Pelanggan pelSet = pelangganRepository.getPelangganByPelangganId(pelanggan.getPelangganId());
-        pelSet.setNama(pelanggan.getNama());
-        pelSet.setSlotPort(pelanggan.getSlotPort());
-        pelSet.setOnuId(pelanggan.getOnuId());
-        pelSet.setSnOnt(pelanggan.getSnOnt());
-        pelSet.setPaket(pelanggan.getPaket());
-        pelSet.setHarga(pelanggan.getHarga());
-        pelSet.setStatus(pelanggan.getStatus());
-        return check.getInfinitePelanggan(pelangganRepository.save(pelSet));
+    public Pelanggan update(@Validated Pelanggan p) {
+        Pelanggan pelSet = pelangganRepository.getPelangganByPelangganId(p.getPelangganId());
+        pelSet.setNama(p.getNama());
+        pelSet.setSlotPort(p.getSlotPort());
+        pelSet.setOnuId(p.getOnuId());
+        pelSet.setSnOnt(p.getSnOnt());
+        pelSet.setPaket(p.getPaket());
+        pelSet.setHarga(p.getHarga());
+        pelSet.setStatus(p.getStatus());
+        return pelangganRepository.save(pelSet);
     }
 
     @Transactional
@@ -104,7 +104,7 @@ public class PelangganServiceImpl implements PelangganService {
             ppp.setStatus(p.getStatus());
             pp.add(ppp);
         }
-        return check.infinitePelanggan(pelangganRepository.saveAll(pp));
+        return pelangganRepository.saveAll(pp);
     }
 
     @Transactional

@@ -1,6 +1,5 @@
 package com.gtx.app_indihomev2.entity;
 
-import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,8 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Table(name = "gpon")
-public class Gpon {
-
+public class Gpon implements Serializable {
     @Id
     @Column(name = "gpon_id")
     @GeneratedValue(generator = "uuid")

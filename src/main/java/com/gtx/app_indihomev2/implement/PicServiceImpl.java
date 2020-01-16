@@ -1,6 +1,5 @@
 package com.gtx.app_indihomev2.implement;
 
-import com.gtx.app_indihomev2.entity.Pelanggan;
 import com.gtx.app_indihomev2.entity.Pic;
 import com.gtx.app_indihomev2.repository.PicRepository;
 import com.gtx.app_indihomev2.service.PicService;
@@ -10,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PicServiceImpl implements PicService {
@@ -44,13 +45,13 @@ public class PicServiceImpl implements PicService {
     @Transactional
     @Override
     public Pic create(@Validated Pic pic) {
-        return check.getInfinitePic(picRepository.save(pic));
+        return picRepository.save(pic);
     }
 
     @Transactional
     @Override
     public List<Pic> createBatch(@Validated List<Pic> pic) {
-        return check.infinitePic(picRepository.saveAll(pic));
+        return picRepository.saveAll(pic);
     }
 
     @Transactional
@@ -58,7 +59,7 @@ public class PicServiceImpl implements PicService {
     public Pic update(@Validated Pic pic) {
         Pic picSet = picRepository.getByPicId(pic.getPicId());
         picSet.setNama(pic.getNama());
-        return check.getInfinitePic(picRepository.save(picSet));
+        return picRepository.save(picSet);
     }
 
     @Transactional
@@ -72,7 +73,7 @@ public class PicServiceImpl implements PicService {
             pp.add(ppp);
         }
 
-        return check.infinitePic(picRepository.saveAll(pp));
+        return picRepository.saveAll(pp);
     }
 
     @Transactional

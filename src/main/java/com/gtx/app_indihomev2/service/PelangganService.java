@@ -15,9 +15,9 @@ public interface PelangganService {
     List<Pelanggan> findByPelangganId(UUID[] pelangganId);
     List<Pelanggan> findByStatus(String status);
 
-    Pelanggan create(Pelanggan pelanggan);
+    Pelanggan create(Pelanggan p);
     List<Pelanggan> createBatch(List<Pelanggan> pelanggan);
-    Pelanggan update(Pelanggan pelanggan);
+    Pelanggan update(Pelanggan p);
     List<Pelanggan> updateBatch(List<Pelanggan> pelanggan);
 
     void delete(UUID pelangganId);

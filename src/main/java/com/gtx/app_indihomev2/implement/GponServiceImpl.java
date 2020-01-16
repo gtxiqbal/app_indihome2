@@ -29,27 +29,27 @@ public class GponServiceImpl implements GponService {
 
     @Override
     public Gpon getByHostname(@Validated String hostname) {
-        return gponRepository.getByHostname(hostname);
+        return check.getInfiniteGpon(gponRepository.getByHostname(hostname));
     }
 
     @Override
     public Gpon getByIp(@Validated String ip) {
-        return gponRepository.getByIp(ip);
+        return check.getInfiniteGpon(gponRepository.getByIp(ip));
     }
 
     @Override
     public List<Gpon> findByGponIp(@Validated String[] ip) {
-        return gponRepository.findGponByIpIn(Arrays.asList(ip));
+        return check.infiniteGpon(gponRepository.findGponByIpIn(Arrays.asList(ip)));
     }
 
     @Override
     public Gpon getByGponId(@Validated UUID gponId) {
-        return gponRepository.getByGponId(gponId);
+        return check.getInfiniteGpon(gponRepository.getByGponId(gponId));
     }
 
     @Override
     public List<Gpon> findByGponId(@Validated UUID[] gponId) {
-        return gponRepository.findGponByGponIdIn(Arrays.asList(gponId));
+        return check.infiniteGpon(gponRepository.findGponByGponIdIn(Arrays.asList(gponId)));
     }
 
     @Transactional

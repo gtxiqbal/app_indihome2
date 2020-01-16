@@ -6,35 +6,46 @@ import java.util.List;
 
 public class Check {
 
-    private void pelanggan(Pelanggan p) {
-        p.getPic().setPelanggan(null);
-        if (p.getInternet() != null) p.getInternet().setPelanggan(null);
-        if (p.getIptv().size() > 0) {
-            for (Iptv iptv : p.getIptv()) {
-                iptv.setPelanggan(null);
-            }
-        }
-    }
-
     public List<Gpon> infiniteGpon(List<Gpon> repoGpon) {
-        List<Gpon> gpon = repoGpon;
-        if (gpon.size() > 0) {
-            for (Gpon g : gpon) {
+        if (repoGpon.size() > 0) {
+            for (Gpon g : repoGpon) {
                 if (g.getPelanggan().size() > 0) {
                     for (Pelanggan p : g.getPelanggan()) {
                         p.setGpon(null);
-                        pelanggan(p);
+                        p.getPic().setPelanggan(null);
+                        if (p.getInternet() != null) p.getInternet().setPelanggan(null);
+                        if (p.getIptv() != null) {
+                            for (Iptv iptv : p.getIptv()) {
+                                iptv.setPelanggan(null);
+                            }
+                        }
                     }
                 }
             }
         }
-        return gpon;
+        return repoGpon;
+    }
+
+    public Gpon getInfiniteGpon(Gpon repoGpon) {
+        if (repoGpon != null) {
+            List<Pelanggan> pelanggan = repoGpon.getPelanggan();
+            for (Pelanggan p : pelanggan) {
+                p.setGpon(null);
+                p.getPic().setPelanggan(null);
+                if (p.getInternet() != null) p.getInternet().setPelanggan(null);
+                if (p.getIptv().size() > 0) {
+                    for (Iptv iptv : p.getIptv()) {
+                        iptv.setPelanggan(null);
+                    }
+                }
+            }
+        }
+        return repoGpon;
     }
 
     public List<Pic> infinitePic(List<Pic> repoPic) {
-        List<Pic> pic = repoPic;
-        if (pic.size() > 0) {
-            for (Pic pc : pic) {
+        if (repoPic.size() > 0) {
+            for (Pic pc : repoPic) {
                 if (pc.getPelanggan().size() > 0) {
                     for (Pelanggan p : pc.getPelanggan()) {
                         p.setPic(null);
@@ -49,13 +60,12 @@ public class Check {
                 }
             }
         }
-        return pic;
+        return repoPic;
     }
 
     public Pic getInfinitePic(Pic repoPic) {
-        Pic pic = repoPic;
-        if (pic != null) {
-            List<Pelanggan> pelanggan = pic.getPelanggan();
+        if (repoPic != null) {
+            List<Pelanggan> pelanggan = repoPic.getPelanggan();
             if (pelanggan.size() > 0 ) {
                 for (Pelanggan p : pelanggan) {
                     p.setPic(null);
@@ -69,40 +79,41 @@ public class Check {
                 }
             }
         }
-        return pic;
+        return repoPic;
     }
 
     public List<Pelanggan> infinitePelanggan(List<Pelanggan> repoPelanggan) {
-        List<Pelanggan> pelanggan = repoPelanggan;
-        if (pelanggan.size() > 0) {
-            for (Pelanggan p : pelanggan) {
+        if (repoPelanggan.size() > 0) {
+            for (Pelanggan p : repoPelanggan) {
                 p.getGpon().setPelanggan(null);
-                pelanggan(p);
-            }
-        }
-        return pelanggan;
-    }
-
-    public Pelanggan getInfinitePelanggan(Pelanggan repoPelanggan) {
-        Pelanggan pelanggan = repoPelanggan;
-        if (pelanggan != null) {
-            pelanggan.getGpon().setPelanggan(null);
-            pelanggan.getPic().setPelanggan(null);
-            Internet inet = pelanggan.getInternet();
-            List<Iptv> iptv = pelanggan.getIptv();
-            if (inet != null) inet.setPelanggan(null);
-            if (iptv.size() > 0) {
-                for (Iptv tv : iptv) {
-                    tv.setPelanggan(null);
+                p.getPic().setPelanggan(null);
+                if (p.getInternet() != null) p.getInternet().setPelanggan(null);
+                if (p.getIptv().size() > 0) {
+                    for (Iptv iptv : p.getIptv()) {
+                        iptv.setPelanggan(null);
+                    }
                 }
             }
         }
-        return pelanggan;
+        return repoPelanggan;
+    }
+
+    public Pelanggan getInfinitePelanggan(Pelanggan repoPelanggan) {
+        if (repoPelanggan != null) {
+            repoPelanggan.getGpon().setPelanggan(null);
+            repoPelanggan.getPic().setPelanggan(null);
+            if (repoPelanggan.getInternet() != null) repoPelanggan.getInternet().setPelanggan(null);
+            if (repoPelanggan.getIptv().size() > 0) {
+                for (Iptv iptv : repoPelanggan.getIptv()) {
+                    iptv.setPelanggan(null);
+                }
+            }
+        }
+        return repoPelanggan;
     }
 
     public List<Internet> infiniteInternet(List<Internet> repoInternet) {
-        List<Internet> internet = repoInternet;
-        for (Internet inet : internet) {
+        for (Internet inet : repoInternet) {
             inet.getPelanggan().setInternet(null);
             inet.getPelanggan().getGpon().setPelanggan(null);
             inet.getPelanggan().getPic().setPelanggan(null);
@@ -113,18 +124,40 @@ public class Check {
                 }
             }
         }
-        return internet;
+        return repoInternet;
+    }
+
+    public Internet getInfiniteInternet(Internet repoInternet) {
+        repoInternet.getPelanggan().setInternet(null);
+        repoInternet.getPelanggan().getPic().setPelanggan(null);
+        repoInternet.getPelanggan().getGpon().setPelanggan(null);
+        List<Iptv> iptv = repoInternet.getPelanggan().getIptv();
+        if (iptv.size() > 0) {
+            for (Iptv tv : iptv) {
+                tv.setPelanggan(null);
+            }
+        }
+        return repoInternet;
     }
 
     public List<Iptv> infiniteIptv(List<Iptv> repoIptv) {
-        List<Iptv> iptv = repoIptv;
-        for (Iptv tv : iptv) {
+        for (Iptv tv : repoIptv) {
             tv.getPelanggan().setIptv(null);
             Internet inet = tv.getPelanggan().getInternet();
             if (inet != null) inet.setPelanggan(null);
             tv.getPelanggan().getPic().setPelanggan(null);
             tv.getPelanggan().getGpon().setPelanggan(null);
         }
-        return iptv;
+        return repoIptv;
+    }
+
+    public Iptv getInfiniteIptv(Iptv repoIptv) {
+        repoIptv.getPelanggan().setIptv(null);
+        Internet inet = repoIptv.getPelanggan().getInternet();
+        if (inet != null) inet.setPelanggan(null);
+        repoIptv.getPelanggan().getPic().setPelanggan(null);
+        repoIptv.getPelanggan().getGpon().setPelanggan(null);
+
+        return repoIptv;
     }
 }

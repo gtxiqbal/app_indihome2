@@ -1,6 +1,5 @@
 package com.gtx.app_indihomev2.entity;
 
-import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,14 +8,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
-public class Pelanggan {
+public class Pelanggan implements Serializable {
 
     @Id
     @Column(name = "pelanggan_id")
@@ -83,4 +82,47 @@ public class Pelanggan {
             mappedBy = "pelanggan"
     )
     private List<Iptv> iptv;
+
+    public Pelanggan() {
+    }
+
+    public Pelanggan(String nama, String paket, Float harga, String status) {
+        this.nama = nama;
+        this.paket = paket;
+        this.harga = harga;
+        this.status = status;
+        this.slotPort = "0/0";
+        this.onuId = "0";
+        this.snOnt = "99";
+    }
+
+    public Pelanggan(String nama, String paket, Float harga, String status, Pic pic, Gpon gpon,  String slotPort, String onuId, String snOnt) {
+        this.nama = nama;
+        this.paket = paket;
+        this.harga = harga;
+        this.status = status;
+        this.pic.setPicId(pic.getPicId());
+        this.gpon.setGponId(gpon.getGponId());
+        this.slotPort = slotPort;
+        this.onuId = onuId;
+        this.snOnt = snOnt;
+    }
+
+    @Override
+    public String toString() {
+        return "Pelanggan{" +
+                "pelangganId=" + pelangganId +
+                ", nama='" + nama + '\'' +
+                ", slotPort='" + slotPort + '\'' +
+                ", onuId='" + onuId + '\'' +
+                ", snOnt='" + snOnt + '\'' +
+                ", paket='" + paket + '\'' +
+                ", harga=" + harga +
+                ", status='" + status + '\'' +
+                ", pic=" + pic +
+                ", gpon=" + gpon +
+                ", internet=" + internet +
+                ", iptv=" + iptv +
+                '}';
+    }
 }

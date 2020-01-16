@@ -1,6 +1,5 @@
 package com.gtx.app_indihomev2.entity;
 
-import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,13 +8,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "iptv")
-public class Iptv {
+public class Iptv implements Serializable {
 
     @Id
     @Column(name = "iptv_id")
@@ -32,10 +32,19 @@ public class Iptv {
     @Column(nullable = false)
     @NotNull
     @NotEmpty
-    @Size(min = 7, max = 7)
+    @Size(max = 7)
     private String password;
 
     @ManyToOne
     @JoinColumn(name = "pelanggan_id", nullable = false)
     private Pelanggan pelanggan;
+
+    public Iptv() {
+
+    }
+
+    public Iptv(String nomor, String password) {
+        this.nomor = nomor;
+        this.password = password;
+    }
 }
