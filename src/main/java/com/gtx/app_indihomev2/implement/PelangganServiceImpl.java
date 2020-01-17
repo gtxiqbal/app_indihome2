@@ -3,7 +3,10 @@ package com.gtx.app_indihomev2.implement;
 import com.gtx.app_indihomev2.entity.Internet;
 import com.gtx.app_indihomev2.entity.Iptv;
 import com.gtx.app_indihomev2.entity.Pelanggan;
+import com.gtx.app_indihomev2.repository.GponRepository;
+import com.gtx.app_indihomev2.repository.IptvRepository;
 import com.gtx.app_indihomev2.repository.PelangganRepository;
+import com.gtx.app_indihomev2.repository.PicRepository;
 import com.gtx.app_indihomev2.service.PelangganService;
 import com.gtx.app_indihomev2.util.Check;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,15 @@ public class PelangganServiceImpl implements PelangganService {
 
     @Autowired
     private PelangganRepository pelangganRepository;
+
+    @Autowired
+    private GponRepository gponRepository;
+
+    @Autowired
+    private PicRepository picRepository;
+
+    @Autowired
+    private IptvRepository iptvRepository;
 
     private Check check = new Check();
 
@@ -113,15 +125,59 @@ public class PelangganServiceImpl implements PelangganService {
     @Transactional
     @Override
     public Pelanggan update(@Validated Pelanggan p) {
-        Pelanggan pelSet = pelangganRepository.getPelangganByPelangganId(p.getPelangganId());
-        pelSet.setNama(p.getNama());
-        pelSet.setSlotPort(p.getSlotPort());
-        pelSet.setOnuId(p.getOnuId());
-        pelSet.setSnOnt(p.getSnOnt());
-        pelSet.setPaket(p.getPaket());
-        pelSet.setHarga(p.getHarga());
-        pelSet.setStatus(p.getStatus());
-        return pelangganRepository.save(pelSet);
+        Pelanggan pelanggan = pelangganRepository.getPelangganByPelangganId(p.getPelangganId());
+        pelanggan.setNama(p.getNama());
+        pelanggan.setSlotPort(p.getSlotPort());
+        pelanggan.setOnuId(p.getOnuId());
+        pelanggan.setSnOnt(p.getSnOnt());
+        pelanggan.setPaket(p.getPaket());
+        pelanggan.setHarga(p.getHarga());
+        pelanggan.setStatus(p.getStatus());
+
+        if (p.getGpon() != null) {
+            pelanggan.setGpon(p.getGpon());
+        }
+
+        if (p.getPic() != null) {
+            pelanggan.setPic(p.getPic());
+        }
+
+        if (pelanggan.getInternet() == null && p.getInternet() != null) {
+            Internet internet = new Internet(
+                    p.getInternet().getNomor(),
+                    p.getInternet().getPassword()
+            );
+            internet.setPelanggan(pelanggan);
+            pelanggan.setInternet(internet);
+        } else if (pelanggan.getInternet() != null && p.getInternet() != null) {
+            pelanggan.getInternet().setNomor(p.getInternet().getNomor());
+            pelanggan.getInternet().setPassword(p.getInternet().getPassword());
+        }
+
+        /*List<Iptv> tvList = new ArrayList<>();
+        if ((pelanggan.getIptv() == null || pelanggan.getIptv().size() == 0) && (p.getIptv() != null || p.getIptv().size() > 0)) {
+            for (Iptv iptv : p.getIptv()) {
+                Iptv tv = new Iptv(
+                        iptv.getNomor(),
+                        iptv.getPassword()
+                );
+                tv.setPelanggan(pelanggan);
+                tvList.add(tv);
+            }
+            pelanggan.setIptv(tvList);
+        } else {
+            if ((pelanggan.getIptv() != null || pelanggan.getIptv().size() > 0) && (p.getIptv() != null || p.getIptv().size() > 0)) {
+                for (Iptv iptv : pelanggan.getIptv()) {
+                    Iptv tv = iptvRepository.getIptvByIptvId(iptv.getIptvId());
+                    for (Iptv v : p.getIptv()) {
+                        tv.setNomor(v.getNomor());
+                        tv.setPassword(v.getPassword());
+                    }
+                }
+            }
+        }*/
+
+        return pelangganRepository.save(pelanggan);
     }
 
     @Transactional
@@ -146,17 +202,24 @@ public class PelangganServiceImpl implements PelangganService {
     @Transactional
     @Override
     public void delete(@Validated UUID pelangganId) {
-        /*Pelanggan p = pelangganRepository.getPelangganByPelangganId(pelangganId);
+        Pelanggan p = pelangganRepository.getPelangganByPelangganId(pelangganId);
+        System.out.println("test ok 0");
+
+        p.getGpon().setPelanggan(null);
+        System.out.println("test ok 2");
+
+        gponRepository.save(p.getGpon());
+        System.out.println("test ok 3");
+
+        p.getPic().setPelanggan(null);
+        System.out.println("test ok 4");
+
+        picRepository.save(p.getPic());
+        System.out.println("test ok 5");
+
         p.setGpon(null);
-        p.setPic(null);
-        if (p.getInternet() != null && p.getIptv().size() < 0) {
-            p.setInternet(null);
-        } else if (p.getInternet() != null && p.getIptv().size() > 0) {
-            p.setInternet(null);
-            p.setIptv(null);
-        }
-        pelangganRepository.delete(p);*/
-        pelangganRepository.deleteById(pelangganId);
+        p.setGpon(null);
+        pelangganRepository.delete(p);
     }
 
     @Transactional

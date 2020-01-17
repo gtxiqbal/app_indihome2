@@ -118,9 +118,9 @@ public class PelangganController {
         response.setService(this.getClass().getName() + nameOfCurrMethod);
         response.setMessage("Berhasil Menambah Pelanggan");
 
-        /*Set Data Dari Database*/
         Pelanggan pp = pelangganService.create(pelanggan);
 
+        /*Set Data Dari Database*/
         response.setData(pelangganService.getByPelangganId(pp.getPelangganId()));
 
         return ResponseEntity
@@ -162,8 +162,10 @@ public class PelangganController {
         response.setService(this.getClass().getName() + nameOfCurrMethod);
         response.setMessage("Berhasil Update Pelanggan");
 
+        Pelanggan pp = pelangganService.update(pelanggan);
+
         /*Set Data Dari Database*/
-        response.setData(pelangganService.update(pelanggan));
+        response.setData(pelangganService.getByPelangganId(pp.getPelangganId()));
 
         return ResponseEntity
                 .status(HttpStatus.OK)

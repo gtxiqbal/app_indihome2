@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface IptvRepository extends JpaRepository<Iptv, UUID> {
+
+    Iptv getIptvByIptvId(UUID iptvId);
 }
