@@ -101,14 +101,7 @@ public class PelangganServiceImpl implements PelangganService {
             pelanggan.setIptv(tvList);
         }
 
-        Pelanggan pelangganSave = pelangganRepository.save(pelanggan);
-        /*if (p.getInternet() != null) pelangganSave.getInternet().setPelanggan(null);
-        if (p.getIptv() != null) {
-            for (Iptv iptv : p.getIptv()) {
-                iptv.getByPelangganIdsetPelanggan(null);
-            }
-        }*/
-        return pelangganSave;
+        return pelangganRepository.save(pelanggan);
     }
 
     @Transactional
@@ -153,6 +146,16 @@ public class PelangganServiceImpl implements PelangganService {
     @Transactional
     @Override
     public void delete(@Validated UUID pelangganId) {
+        /*Pelanggan p = pelangganRepository.getPelangganByPelangganId(pelangganId);
+        p.setGpon(null);
+        p.setPic(null);
+        if (p.getInternet() != null && p.getIptv().size() < 0) {
+            p.setInternet(null);
+        } else if (p.getInternet() != null && p.getIptv().size() > 0) {
+            p.setInternet(null);
+            p.setIptv(null);
+        }
+        pelangganRepository.delete(p);*/
         pelangganRepository.deleteById(pelangganId);
     }
 

@@ -62,25 +62,18 @@ public class Pelanggan implements Serializable {
     @Size(min = 5, max = 11)
     private String status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pic_id", nullable = false)
     private Pic pic;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gpon_id", nullable = false)
     private Gpon gpon;
 
-    @OneToOne(cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            mappedBy = "pelanggan"
-    )
+    @OneToOne(mappedBy = "pelanggan", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Internet internet;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            mappedBy = "pelanggan"
-    )
+    @OneToMany(mappedBy = "pelanggan", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Iptv> iptv;
 
     public Pelanggan() {

@@ -44,10 +44,6 @@ public class Gpon implements Serializable {
     @Column(nullable = false)
     private Integer vlan;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            mappedBy = "gpon"
-    )
+    @OneToMany(mappedBy = "gpon", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Pelanggan> pelanggan;
 }

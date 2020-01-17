@@ -35,7 +35,7 @@ public class Iptv implements Serializable {
     @Size(max = 7)
     private String password;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pelanggan_id", nullable = false)
     private Pelanggan pelanggan;
 
