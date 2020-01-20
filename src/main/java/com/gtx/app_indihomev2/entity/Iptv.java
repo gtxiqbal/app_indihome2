@@ -48,6 +48,12 @@ public class Iptv implements Serializable {
         this.password = password;
     }
 
+    public Iptv(String nomor, String password, Pelanggan pelanggan) {
+        this.nomor = nomor;
+        this.password = password;
+        this.pelanggan = pelanggan;
+    }
+
     @Override
     public String toString() {
         return "Iptv{" +

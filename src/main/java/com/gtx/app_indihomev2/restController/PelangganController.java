@@ -150,8 +150,8 @@ public class PelangganController {
                 .body(response);
     }
 
-    @PutMapping
-    public ResponseEntity<Response> update(@RequestBody Pelanggan pelanggan) {
+    @PutMapping("/update/{pelangganId}")
+    public ResponseEntity<Response> update(@RequestBody Pelanggan pelanggan, @PathVariable("pelangganId") UUID pelangganId) {
         /*Informasi Tentang Nama Method*/
         String nameOfCurrMethod = new Throwable()
                 .getStackTrace()[0]
@@ -162,10 +162,10 @@ public class PelangganController {
         response.setService(this.getClass().getName() + nameOfCurrMethod);
         response.setMessage("Berhasil Update Pelanggan");
 
-        Pelanggan pp = pelangganService.update(pelanggan);
+        Pelanggan pp = pelangganService.update(pelangganId, pelanggan);
 
         /*Set Data Dari Database*/
-        response.setData(pelangganService.getByPelangganId(pp.getPelangganId()));
+        response.setData(pelangganService.getByPelangganId(pelangganId));
 
         return ResponseEntity
                 .status(HttpStatus.OK)

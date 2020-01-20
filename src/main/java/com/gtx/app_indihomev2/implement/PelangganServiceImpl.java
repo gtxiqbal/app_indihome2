@@ -124,8 +124,8 @@ public class PelangganServiceImpl implements PelangganService {
 
     @Transactional
     @Override
-    public Pelanggan update(@Validated Pelanggan p) {
-        Pelanggan pelanggan = pelangganRepository.getPelangganByPelangganId(p.getPelangganId());
+    public Pelanggan update(@Validated UUID pelangganId, @Validated Pelanggan p) {
+        Pelanggan pelanggan = pelangganRepository.getPelangganByPelangganId(pelangganId);
         pelanggan.setNama(p.getNama());
         pelanggan.setSlotPort(p.getSlotPort());
         pelanggan.setOnuId(p.getOnuId());
@@ -154,28 +154,27 @@ public class PelangganServiceImpl implements PelangganService {
             pelanggan.getInternet().setPassword(p.getInternet().getPassword());
         }
 
-        /*List<Iptv> tvList = new ArrayList<>();
-        if ((pelanggan.getIptv() == null || pelanggan.getIptv().size() == 0) && (p.getIptv() != null || p.getIptv().size() > 0)) {
+        List<Iptv> tvList = new ArrayList<>();
+        if (pelanggan.getIptv().size() == 0 && p.getIptv() != null) {
             for (Iptv iptv : p.getIptv()) {
                 Iptv tv = new Iptv(
                         iptv.getNomor(),
-                        iptv.getPassword()
+                        iptv.getPassword(),
+                        pelanggan
                 );
-                tv.setPelanggan(pelanggan);
                 tvList.add(tv);
             }
-            pelanggan.setIptv(tvList);
-        } else {
-            if ((pelanggan.getIptv() != null || pelanggan.getIptv().size() > 0) && (p.getIptv() != null || p.getIptv().size() > 0)) {
-                for (Iptv iptv : pelanggan.getIptv()) {
-                    Iptv tv = iptvRepository.getIptvByIptvId(iptv.getIptvId());
-                    for (Iptv v : p.getIptv()) {
-                        tv.setNomor(v.getNomor());
-                        tv.setPassword(v.getPassword());
-                    }
+            iptvRepository.saveAll(tvList);
+        } else if (pelanggan.getIptv().size() > 0 && p.getIptv() != null) {
+            for (Iptv iptv : p.getIptv()) {
+                List<Iptv> iptvs = iptvRepository.findIptvByIptvId(iptv.getIptvId());
+                for (Iptv iptv1 : iptvs) {
+                    iptv1.setNomor(iptv.getNomor());
+                    iptv1.setPassword(iptv.getPassword());
+                    iptvRepository.save(iptv1);
                 }
             }
-        }*/
+        }
 
         return pelangganRepository.save(pelanggan);
     }

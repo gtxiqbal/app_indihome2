@@ -17,7 +17,7 @@ public interface PelangganService {
 
     Pelanggan create(Pelanggan p);
     List<Pelanggan> createBatch(List<Pelanggan> pelanggan);
-    Pelanggan update(Pelanggan p);
+    Pelanggan update(UUID pelangganId, Pelanggan p);
     List<Pelanggan> updateBatch(List<Pelanggan> pelanggan);
 
     void delete(UUID pelangganId);
