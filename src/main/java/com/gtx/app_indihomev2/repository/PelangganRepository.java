@@ -2,6 +2,9 @@ package com.gtx.app_indihomev2.repository;
 
 import com.gtx.app_indihomev2.entity.Pelanggan;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,6 +23,9 @@ public interface PelangganRepository extends JpaRepository<Pelanggan, UUID> {
     List<Pelanggan> findPelangganBySnOntIn(List<String> sn);
     List<Pelanggan> findPelangganByStatus(String status);
 
+    @Modifying
+    @Query(nativeQuery = true, value = "DELETE FROM pelanggan WHERE pelanggan_id = :pelanggan_id")
+    void deletePelanggan(@Param("pelanggan_id") UUID pelanggan_id);
     void deletePelangganByPelangganIdIn(List<UUID> pelangganID);
     void deletePelangganByNamaIn(List<String> nama);
     void deletePelangganBySnOntIn(List<String> sn);

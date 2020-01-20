@@ -3,10 +3,7 @@ package com.gtx.app_indihomev2.implement;
 import com.gtx.app_indihomev2.entity.Internet;
 import com.gtx.app_indihomev2.entity.Iptv;
 import com.gtx.app_indihomev2.entity.Pelanggan;
-import com.gtx.app_indihomev2.repository.GponRepository;
-import com.gtx.app_indihomev2.repository.IptvRepository;
-import com.gtx.app_indihomev2.repository.PelangganRepository;
-import com.gtx.app_indihomev2.repository.PicRepository;
+import com.gtx.app_indihomev2.repository.*;
 import com.gtx.app_indihomev2.service.PelangganService;
 import com.gtx.app_indihomev2.util.Check;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,9 @@ public class PelangganServiceImpl implements PelangganService {
 
     @Autowired
     private IptvRepository iptvRepository;
+
+    @Autowired
+    private InternetRepository internetRepository;
 
     private Check check = new Check();
 
@@ -202,23 +202,17 @@ public class PelangganServiceImpl implements PelangganService {
     @Override
     public void delete(@Validated UUID pelangganId) {
         Pelanggan p = pelangganRepository.getPelangganByPelangganId(pelangganId);
-        System.out.println("test ok 0");
+        if (p.getInternet() != null) {
+            internetRepository.deleteInternetPelanggan(pelangganId);
+            System.out.println("test 1");
+        }
+        if (p.getIptv().size() > 0) {
+            iptvRepository.deleteIptvPelanggan(pelangganId);
+            System.out.println("test 2");
+        }
 
-        p.getGpon().setPelanggan(null);
-        System.out.println("test ok 2");
-
-        gponRepository.save(p.getGpon());
-        System.out.println("test ok 3");
-
-        p.getPic().setPelanggan(null);
-        System.out.println("test ok 4");
-
-        picRepository.save(p.getPic());
-        System.out.println("test ok 5");
-
-        p.setGpon(null);
-        p.setGpon(null);
-        pelangganRepository.delete(p);
+        pelangganRepository.deletePelanggan(pelangganId);
+        System.out.println("test 3");
     }
 
     @Transactional

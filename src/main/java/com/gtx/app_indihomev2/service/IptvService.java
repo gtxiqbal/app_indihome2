@@ -10,4 +10,7 @@ public interface IptvService {
     Iptv getByIptvId(UUID iptvId);
     List<Iptv> findByNomor(String nomor);
     Iptv getByNomor(String nomor);
+    List<Iptv> findByPelangganId(UUID pelangganId);
+
+    void deleteByPelangganId(UUID pelangganId);
 }
