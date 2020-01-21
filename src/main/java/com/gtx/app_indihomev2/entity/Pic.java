@@ -1,5 +1,6 @@
 package com.gtx.app_indihomev2.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,7 +18,6 @@ import java.util.UUID;
 @Setter
 @Table
 public class Pic implements Serializable {
-
     @Id
     @Column(name = "pic_id")
     @GeneratedValue(generator = "uuid")
@@ -29,7 +29,6 @@ public class Pic implements Serializable {
     @NotEmpty
     @Size(max = 50)
     private String nama;
-
 
     @OneToMany(mappedBy = "pic", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Pelanggan> pelanggan;

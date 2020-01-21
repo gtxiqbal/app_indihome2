@@ -1,4 +1,4 @@
-package com.gtx.app_indihomev2.implement;
+package com.gtx.app_indihomev2.service.implement;
 
 import com.gtx.app_indihomev2.entity.Internet;
 import com.gtx.app_indihomev2.entity.Iptv;
@@ -7,6 +7,7 @@ import com.gtx.app_indihomev2.repository.*;
 import com.gtx.app_indihomev2.service.PelangganService;
 import com.gtx.app_indihomev2.util.Check;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -23,16 +24,13 @@ public class PelangganServiceImpl implements PelangganService {
     private PelangganRepository pelangganRepository;
 
     @Autowired
-    private GponRepository gponRepository;
-
-    @Autowired
-    private PicRepository picRepository;
+    private InternetRepository internetRepository;
 
     @Autowired
     private IptvRepository iptvRepository;
 
     @Autowired
-    private InternetRepository internetRepository;
+    private JdbcTemplate jt;
 
     private Check check = new Check();
 
@@ -198,57 +196,93 @@ public class PelangganServiceImpl implements PelangganService {
         return pelangganRepository.saveAll(pp);
     }
 
-    @Transactional
+    private void deleteChildPelanggan(List<Pelanggan> pelanggan) {
+        for (Pelanggan p : pelanggan) {
+            if (p.getInternet() != null) {
+                jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+            }
+
+            if (p.getIptv().size() > 0) {
+                jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
+            }
+
+            jt.update("delete from pelanggan where pelanggan_id = ?", p.getPelangganId());
+        }
+    }
+
     @Override
     public void delete(@Validated UUID pelangganId) {
         Pelanggan p = pelangganRepository.getPelangganByPelangganId(pelangganId);
         if (p.getInternet() != null) {
-            internetRepository.deleteInternetPelanggan(pelangganId);
-            System.out.println("test 1");
-        }
-        if (p.getIptv().size() > 0) {
-            iptvRepository.deleteIptvPelanggan(pelangganId);
-            System.out.println("test 2");
+            jt.update("delete from internet where pelanggan_id = ?", pelangganId);
         }
 
-        pelangganRepository.deletePelanggan(pelangganId);
-        System.out.println("test 3");
+        if (p.getIptv().size() > 0) {
+            jt.update("delete from iptv where pelanggan_id = ?", pelangganId);
+        }
+
+        jt.update("delete from pelanggan where pelanggan_id = ?", pelangganId);
     }
 
-    @Transactional
     @Override
     public void deleteByNama(@Validated String nama) {
         Pelanggan p = pelangganRepository.getPelangganByNama(nama);
-        pelangganRepository.delete(p);
+        if (p.getInternet() != null) {
+            jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+        }
+
+        if (p.getIptv().size() > 0) {
+            jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
+        }
+
+        jt.update("delete from pelanggan where pelanggan_id = ?", p.getPelangganId());
     }
 
-    @Transactional
     @Override
     public void deleteBySn(@Validated String sn) {
         Pelanggan p = pelangganRepository.getPelangganBySnOnt(sn);
-        pelangganRepository.delete(p);
+        if (p.getInternet() != null) {
+            jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+        }
+
+        if (p.getIptv().size() > 0) {
+            jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
+        }
+
+        jt.update("delete from pelanggan where pelanggan_id = ?", p.getPelangganId());
     }
 
-    @Transactional
     @Override
     public void deleteBatch(@Validated UUID[] pelangganId) {
-        pelangganRepository.deletePelangganByPelangganIdIn(Arrays.asList(pelangganId));
+        List<Pelanggan> pelanggan = pelangganRepository.findPelangganByPelangganIdIn(Arrays.asList(pelangganId));
+
+        deleteChildPelanggan(pelanggan);
     }
 
     @Override
     public void deleteBatchNama(String[] nama) {
-        pelangganRepository.deletePelangganByNamaIn(Arrays.asList(nama));
+        List<Pelanggan> pelanggan = pelangganRepository.findPelangganByNamaIn(Arrays.asList(nama));
+
+        deleteChildPelanggan(pelanggan);
     }
 
-    @Transactional
     @Override
     public void deleteBatchSn(@Validated String[] sn) {
-        pelangganRepository.deletePelangganBySnOntIn(Arrays.asList(sn));
+        List<Pelanggan> pelanggan = pelangganRepository.findPelangganBySnOntIn(Arrays.asList(sn));
+
+        deleteChildPelanggan(pelanggan);
     }
 
-    @Transactional
     @Override
     public void deleteAll() {
-        pelangganRepository.deleteAll();
+        if (internetRepository.count() > 0) {
+            jt.update("delete from internet");
+        }
+
+        if (iptvRepository.count() > 0) {
+            jt.update("delete from iptv");
+        }
+
+        jt.update("delete from pelanggan");
     }
 }

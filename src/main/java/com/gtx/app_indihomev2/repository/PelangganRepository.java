@@ -22,11 +22,4 @@ public interface PelangganRepository extends JpaRepository<Pelanggan, UUID> {
     Pelanggan getPelangganBySnOnt(String snOnt);
     List<Pelanggan> findPelangganBySnOntIn(List<String> sn);
     List<Pelanggan> findPelangganByStatus(String status);
-
-    @Modifying
-    @Query(nativeQuery = true, value = "DELETE FROM pelanggan WHERE pelanggan_id = :pelanggan_id")
-    void deletePelanggan(@Param("pelanggan_id") UUID pelanggan_id);
-    void deletePelangganByPelangganIdIn(List<UUID> pelangganID);
-    void deletePelangganByNamaIn(List<String> nama);
-    void deletePelangganBySnOntIn(List<String> sn);
 }

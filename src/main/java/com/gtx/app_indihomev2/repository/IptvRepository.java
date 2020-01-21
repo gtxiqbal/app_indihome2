@@ -15,10 +15,4 @@ public interface IptvRepository extends JpaRepository<Iptv, UUID> {
     List<Iptv> findIptvByNomor(String nomor);
     Iptv getIptvByNomor(String nomor);
     List<Iptv> findIptvByPelanggan(UUID pelangganId);
-
-    @Modifying
-    @Query(nativeQuery = true, value = "DELETE FROM iptv WHERE pelanggan_id = :pelanggan_id")
-    void deleteIptvPelanggan(@Param("pelanggan_id") UUID pelanggan_id);
-
-    void deleteIptvByPelanggan(UUID pelanggan_id);
 }

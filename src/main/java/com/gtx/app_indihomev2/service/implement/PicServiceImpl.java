@@ -1,4 +1,4 @@
-package com.gtx.app_indihomev2.implement;
+package com.gtx.app_indihomev2.service.implement;
 
 import com.gtx.app_indihomev2.entity.Pic;
 import com.gtx.app_indihomev2.repository.PicRepository;

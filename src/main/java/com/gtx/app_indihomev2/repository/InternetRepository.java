@@ -9,9 +9,4 @@ import org.springframework.data.repository.query.Param;
 import java.util.UUID;
 
 public interface InternetRepository extends JpaRepository<Internet, UUID> {
-    @Modifying
-    @Query(nativeQuery = true, value = "DELETE FROM internet WHERE pelanggan_id = :pelanggan_id")
-    void deleteInternetPelanggan(@Param("pelanggan_id") UUID pelangganId);
-
-    void deleteInternetByPelanggan(UUID pelangganId);
 }
