@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface IptvService {
-    List<Iptv> findByIptvId(UUID iptvId);
-    Iptv getByIptvId(UUID iptvId);
+    List<Iptv> findAll();
     List<Iptv> findByNomor(String nomor);
+    Iptv getByIptvId(UUID iptvId);
     Iptv getByNomor(String nomor);
     List<Iptv> findByPelangganId(UUID pelangganId);
-
-    void deleteByPelangganId(UUID pelangganId);
+    Iptv create(Iptv iptv);
+    Iptv update(UUID iptvId, Iptv iptv);
+    void deleteByIptvId(UUID pelangganId);
+    void deleteAll();
 }

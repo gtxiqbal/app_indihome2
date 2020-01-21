@@ -117,6 +117,7 @@ public class PelangganServiceImpl implements PelangganService {
     @Transactional
     @Override
     public List<Pelanggan> createBatch(@Validated List<Pelanggan> pelanggan) {
+
         return pelangganRepository.saveAll(pelanggan);
     }
 
@@ -214,14 +215,14 @@ public class PelangganServiceImpl implements PelangganService {
     public void delete(@Validated UUID pelangganId) {
         Pelanggan p = pelangganRepository.getPelangganByPelangganId(pelangganId);
         if (p.getInternet() != null) {
-            jt.update("delete from internet where pelanggan_id = ?", pelangganId);
+            jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
         }
 
         if (p.getIptv().size() > 0) {
-            jt.update("delete from iptv where pelanggan_id = ?", pelangganId);
+            jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
         }
 
-        jt.update("delete from pelanggan where pelanggan_id = ?", pelangganId);
+        jt.update("delete from pelanggan where pelanggan_id = ?", p.getPelangganId());
     }
 
     @Override
