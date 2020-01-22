@@ -317,50 +317,50 @@ public class PelangganServiceImpl implements PelangganService {
     @Override
     public void deleteByNama(@Validated String nama) {
         Pelanggan p = pelangganRepository.getPelangganByNama(nama);
-        if (p.getInternet() != null) {
-            jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
-        }
-
-        if (p.getIptv().size() > 0) {
-            jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
-        }
-
+        if (p.getInternet() != null) jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+        if (p.getIptv().size() > 0) jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
         jt.update("delete from pelanggan where pelanggan_id = ?", p.getPelangganId());
     }
 
     @Override
     public void deleteBySn(@Validated String sn) {
         Pelanggan p = pelangganRepository.getPelangganBySnOnt(sn);
-        if (p.getInternet() != null) {
-            jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
-        }
-
-        if (p.getIptv().size() > 0) {
-            jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
-        }
-
+        if (p.getInternet() != null) jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+        if (p.getIptv().size() > 0) jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
         jt.update("delete from pelanggan where pelanggan_id = ?", p.getPelangganId());
     }
 
     @Override
     public void deleteBatch(@Validated UUID[] pelangganId) {
-        List<Pelanggan> pelanggan = pelangganRepository.findPelangganByPelangganIdIn(Arrays.asList(pelangganId));
-
-        deleteChildPelanggan(pelanggan);
+        List<UUID> pelId = Arrays.asList(pelangganId);
+        for (UUID id : pelId) {
+            Pelanggan p = pelangganRepository.getPelangganByPelangganId(id);
+            if (p.getInternet() != null) jt.update("delete from internet where pelanggan_id = ?", id);
+            if (p.getIptv().size() > 0) jt.update("delete from iptv where pelanggan_id = ?", id);
+            jt.update("delete from pelanggan where pelanggan_id = ?", id);
+        }
     }
 
     @Override
     public void deleteBatchNama(String[] nama) {
-        List<Pelanggan> pelanggan = pelangganRepository.findPelangganByNamaIn(Arrays.asList(nama));
-
-        deleteChildPelanggan(pelanggan);
+        List<String> pelNama = Arrays.asList(nama);
+        for (String nm : pelNama) {
+            Pelanggan p = pelangganRepository.getPelangganByNama(nm);
+            if (p.getInternet() != null) jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+            if (p.getIptv().size() > 0) jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
+            jt.update("delete from pelanggan where pelanggan_id = ?", p.getPelangganId());
+        }
     }
 
     @Override
     public void deleteBatchSn(@Validated String[] sn) {
-        List<Pelanggan> pelanggan = pelangganRepository.findPelangganBySnOntIn(Arrays.asList(sn));
-
-        deleteChildPelanggan(pelanggan);
+        List<String> pelSn = Arrays.asList(sn);
+        for (String snOnt : pelSn) {
+            Pelanggan p = pelangganRepository.getPelangganByNama(snOnt);
+            if (p.getInternet() != null) jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+            if (p.getIptv().size() > 0) jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
+            jt.update("delete from pelanggan where pelanggan_id = ?", p.getPelangganId());
+        }
     }
 
     @Override
