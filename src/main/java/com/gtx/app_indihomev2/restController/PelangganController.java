@@ -107,6 +107,27 @@ public class PelangganController {
                 .body(response);
     }
 
+    @GetMapping("/status/{status}")
+    public ResponseEntity<Response> getByStatus(@PathVariable("status") String status) {
+        /*Informasi Tentang Nama Method*/
+        String nameOfCurrMethod = new Throwable()
+                .getStackTrace()[0]
+                .getMethodName();
+
+        /*Memanggil Class Response yang telah dibuat*/
+        Response response = new Response();
+        response.setService(this.getClass().getName() + nameOfCurrMethod);
+        response.setMessage("Berhasil Menampilkan Pelanggan berdasarkan Status");
+
+        /*Set Data Dari Database*/
+        response.setData(pelangganService.findByStatus(status));
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
+    }
+
     @PostMapping
     public ResponseEntity<Response> create(@RequestBody Pelanggan pelanggan) {
         /*Informasi Tentang Nama Method*/
