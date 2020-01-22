@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -141,8 +142,10 @@ public class PelangganController {
         response.setService(this.getClass().getName() + nameOfCurrMethod);
         response.setMessage("Berhasil Menambah Batch Pelanggan");
 
+        List<Pelanggan> pp = pelangganService.createBatch(pelanggan);
+
         /*Set Data Dari Database*/
-        response.setData(pelangganService.createBatch(pelanggan));
+        response.setData(pelangganService.findByPelangganId(pelangganService.loopAfterBatch(pp)));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -185,8 +188,10 @@ public class PelangganController {
         response.setService(this.getClass().getName() + nameOfCurrMethod);
         response.setMessage("Berhasil Update Batch Pelanggan");
 
+        List<Pelanggan> pp = pelangganService.updateBatch(pelanggan);
+
         /*Set Data Dari Database*/
-        response.setData(pelangganService.updateBatch(pelanggan));
+        response.setData(pelangganService.findByPelangganId(pelangganService.loopAfterBatch(pp)));
 
         return ResponseEntity
                 .status(HttpStatus.OK)

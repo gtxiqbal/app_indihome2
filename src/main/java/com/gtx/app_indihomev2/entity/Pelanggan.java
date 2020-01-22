@@ -1,7 +1,5 @@
 package com.gtx.app_indihomev2.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -64,18 +62,18 @@ public class Pelanggan implements Serializable {
     @Size(min = 5, max = 11)
     private String status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "pic_id", nullable = false)
     private Pic pic;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "gpon_id", nullable = false)
     private Gpon gpon;
 
-    @OneToOne(mappedBy = "pelanggan", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "pelanggan", cascade = CascadeType.ALL, orphanRemoval = true)
     private Internet internet;
 
-    @OneToMany(mappedBy = "pelanggan", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pelanggan", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Iptv> iptv;
 
     public Pelanggan() {

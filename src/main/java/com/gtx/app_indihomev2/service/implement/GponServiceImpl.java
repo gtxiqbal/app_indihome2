@@ -1,10 +1,12 @@
 package com.gtx.app_indihomev2.service.implement;
 
 import com.gtx.app_indihomev2.entity.Gpon;
+import com.gtx.app_indihomev2.entity.Pelanggan;
 import com.gtx.app_indihomev2.repository.GponRepository;
 import com.gtx.app_indihomev2.service.GponService;
 import com.gtx.app_indihomev2.util.Check;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +21,9 @@ public class GponServiceImpl implements GponService {
 
     @Autowired
     private GponRepository gponRepository;
+
+    @Autowired
+    private JdbcTemplate jt;
 
     private Check check = new Check();
 
@@ -92,41 +97,80 @@ public class GponServiceImpl implements GponService {
         return gponRepository.saveAll(gg);
     }
 
-    @Transactional
     @Override
     public void delete(@Validated UUID gponId) {
-        gponRepository.deleteById(gponId);
+        Gpon g = gponRepository.getByGponId(gponId);
+        if (g.getPelanggan().size() > 0) {
+            for (Pelanggan p : g.getPelanggan()) {
+                if (p.getInternet() != null)
+                    jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+
+                if (p.getIptv().size() > 0)
+                    jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
+            }
+            jt.update("delete from pelanggan where gpon_id = ?", g.getGponId());
+        }
+        //jt.update("delete from gpon where gpon_id = ?", g.getGponId());
+        gponRepository.deleteById(g.getGponId());
     }
 
-    @Transactional
     @Override
     public void deleteByHostname(@Validated String hostname) {
-        Gpon gpon_return = gponRepository.getByHostname(hostname);
-        gponRepository.delete(gpon_return);
+        Gpon g = gponRepository.getByHostname(hostname);
+        if (g.getPelanggan().size() > 0) {
+            for (Pelanggan p : g.getPelanggan()) {
+                if (p.getInternet() != null)
+                    jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+
+                if (p.getIptv().size() > 0)
+                    jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
+            }
+            jt.update("delete from pelanggan where gpon_id = ?", g.getGponId());
+        }
+        //jt.update("delete from gpon where gpon_id = ?", g.getGponId());
+        gponRepository.deleteById(g.getGponId());
     }
 
-    @Transactional
     @Override
     public void deleteByIp(@Validated String ip) {
-        Gpon gpon_return = gponRepository.getByIp(ip);
-        gponRepository.delete(gpon_return);
+        Gpon g = gponRepository.getByIp(ip);
+        if (g.getPelanggan().size() > 0) {
+            for (Pelanggan p : g.getPelanggan()) {
+                if (p.getInternet() != null)
+                    jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+
+                if (p.getIptv().size() > 0)
+                    jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
+            }
+            jt.update("delete from pelanggan where gpon_id = ?", g.getGponId());
+        }
+        //jt.update("delete from gpon where gpon_id = ?", g.getGponId());
+        gponRepository.deleteById(g.getGponId());
     }
 
-    @Transactional
     @Override
     public void deleteBatch(@Validated UUID[] gponId) {
         gponRepository.deleteGponByGponIdIn(Arrays.asList(gponId));
     }
 
-    @Transactional
     @Override
     public void deleteBatchIp(@Validated String[] ip) {
         gponRepository.deleteGponByIpIn(Arrays.asList(ip));
     }
 
-    @Transactional
     @Override
     public void deleteAll() {
-        gponRepository.deleteAll();
+        List<Gpon> g = gponRepository.findAll();
+        for (Gpon gpon : g) {
+            if (gpon.getPelanggan().size() > 0) {
+                for (Pelanggan p : gpon.getPelanggan()) {
+                    if (p.getInternet() != null)
+                        jt.update("delete from internet where pelanggan_id = ?", p.getPelangganId());
+
+                    if (p.getIptv().size() > 0)
+                        jt.update("delete from iptv where pelanggan_id = ?", p.getPelangganId());
+                }
+            }
+        }
     }
 }

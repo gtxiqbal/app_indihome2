@@ -1,6 +1,5 @@
 package com.gtx.app_indihomev2.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -36,7 +35,7 @@ public class Iptv implements Serializable {
     @Size(max = 7)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "pelanggan_id", nullable = false)
     private Pelanggan pelanggan;
 

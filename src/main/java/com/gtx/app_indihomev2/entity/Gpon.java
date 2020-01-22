@@ -1,6 +1,5 @@
 package com.gtx.app_indihomev2.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -45,6 +44,6 @@ public class Gpon implements Serializable {
     @Column(nullable = false)
     private Integer vlan;
 
-    @OneToMany(mappedBy = "gpon", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "gpon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pelanggan> pelanggan;
 }

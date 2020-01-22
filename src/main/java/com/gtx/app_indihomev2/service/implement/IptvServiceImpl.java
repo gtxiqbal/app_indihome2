@@ -67,7 +67,10 @@ public class IptvServiceImpl implements IptvService {
 
     @Override
     public void deleteByIptvId(@Validated UUID iptvId) {
-        jt.update("delete from iptv where iptv_id = ?", iptvId);
+        Iptv iptv = iptvRepository.getIptvByIptvId(iptvId);
+        if (iptv.getPelanggan() == null) {
+            jt.update("delete from iptv where iptv_id = ?", iptvId);
+        }
     }
 
     @Override

@@ -23,7 +23,8 @@ public class Internet implements Serializable {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @OneToOne
     @JoinColumn(name = "pelanggan_id", nullable = false, unique = true)
     @MapsId
     private Pelanggan pelanggan;

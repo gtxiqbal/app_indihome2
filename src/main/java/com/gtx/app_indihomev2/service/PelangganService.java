@@ -20,6 +20,8 @@ public interface PelangganService {
     Pelanggan update(UUID pelangganId, Pelanggan p);
     List<Pelanggan> updateBatch(List<Pelanggan> pelanggan);
 
+    UUID[] loopAfterBatch(List<Pelanggan> pelanggan);
+
     void delete(UUID pelangganId);
     void deleteByNama(String nama);
     void deleteBySn(String sn);

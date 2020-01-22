@@ -116,9 +116,45 @@ public class PelangganServiceImpl implements PelangganService {
 
     @Transactional
     @Override
-    public List<Pelanggan> createBatch(@Validated List<Pelanggan> pelanggan) {
+    public List<Pelanggan> createBatch(@Validated List<Pelanggan> pp) {
+        List<Pelanggan> pel = new ArrayList<Pelanggan>();
+        for (Pelanggan p : pp) {
+            Pelanggan pelanggan = new Pelanggan(
+                    p.getNama(),
+                    p.getPaket(),
+                    p.getHarga(),
+                    p.getStatus(),
+                    p.getPic(),
+                    p.getGpon(),
+                    p.getSlotPort(),
+                    p.getOnuId(),
+                    p.getSnOnt()
+            );
 
-        return pelangganRepository.saveAll(pelanggan);
+            if (p.getInternet() != null) {
+                Internet internet = new Internet(
+                        p.getInternet().getNomor(),
+                        p.getInternet().getPassword()
+                );
+                internet.setPelanggan(pelanggan);
+                pelanggan.setInternet(internet);
+            }
+
+            if (p.getIptv() != null) {
+                List<Iptv> tvList = new ArrayList<>();
+                for (Iptv iptv : p.getIptv()) {
+                    Iptv tv = new Iptv(
+                            iptv.getNomor(),
+                            iptv.getPassword()
+                    );
+                    tv.setPelanggan(pelanggan);
+                    tvList.add(tv);
+                }
+                pelanggan.setIptv(tvList);
+            }
+            pel.add(pelanggan);
+        }
+        return pelangganRepository.saveAll(pel);
     }
 
     @Transactional
@@ -180,21 +216,74 @@ public class PelangganServiceImpl implements PelangganService {
 
     @Transactional
     @Override
-    public List<Pelanggan> updateBatch(@Validated List<Pelanggan> pelanggan) {
+    public List<Pelanggan> updateBatch(@Validated List<Pelanggan> pel) {
         List<Pelanggan> pp = new ArrayList<>();
 
-        for (Pelanggan p : pelanggan) {
-            Pelanggan ppp = pelangganRepository.getPelangganByPelangganId(p.getPelangganId());
-            ppp.setNama(p.getNama());
-            ppp.setSlotPort(p.getSlotPort());
-            ppp.setOnuId(p.getOnuId());
-            ppp.setSnOnt(p.getSnOnt());
-            ppp.setPaket(p.getPaket());
-            ppp.setHarga(p.getHarga());
-            ppp.setStatus(p.getStatus());
-            pp.add(ppp);
+        for (Pelanggan p : pel) {
+            Pelanggan pelanggan = pelangganRepository.getPelangganByPelangganId(p.getPelangganId());
+            pelanggan.setNama(p.getNama());
+            pelanggan.setSlotPort(p.getSlotPort());
+            pelanggan.setOnuId(p.getOnuId());
+            pelanggan.setSnOnt(p.getSnOnt());
+            pelanggan.setPaket(p.getPaket());
+            pelanggan.setHarga(p.getHarga());
+            pelanggan.setStatus(p.getStatus());
+
+            if (p.getGpon() != null) {
+                pelanggan.setGpon(p.getGpon());
+            }
+
+            if (p.getPic() != null) {
+                pelanggan.setPic(p.getPic());
+            }
+
+            if (pelanggan.getInternet() == null && p.getInternet() != null) {
+                Internet internet = new Internet(
+                        p.getInternet().getNomor(),
+                        p.getInternet().getPassword()
+                );
+                internet.setPelanggan(pelanggan);
+                pelanggan.setInternet(internet);
+            } else if (pelanggan.getInternet() != null && p.getInternet() != null) {
+                pelanggan.getInternet().setNomor(p.getInternet().getNomor());
+                pelanggan.getInternet().setPassword(p.getInternet().getPassword());
+            }
+
+            List<Iptv> tvList = new ArrayList<>();
+            if (pelanggan.getIptv().size() == 0 && p.getIptv() != null) {
+                for (Iptv iptv : p.getIptv()) {
+                    Iptv tv = new Iptv(
+                            iptv.getNomor(),
+                            iptv.getPassword(),
+                            pelanggan
+                    );
+                    tvList.add(tv);
+                }
+                iptvRepository.saveAll(tvList);
+            } else if (pelanggan.getIptv().size() > 0 && p.getIptv() != null) {
+                for (Iptv iptv : p.getIptv()) {
+                    List<Iptv> iptvs = iptvRepository.findIptvByIptvId(iptv.getIptvId());
+                    for (Iptv iptv1 : iptvs) {
+                        iptv1.setNomor(iptv.getNomor());
+                        iptv1.setPassword(iptv.getPassword());
+                        iptvRepository.save(iptv1);
+                    }
+                }
+            }
+
+            pp.add(pelanggan);
         }
         return pelangganRepository.saveAll(pp);
+    }
+
+    @Override
+    public UUID[] loopAfterBatch(@Validated List<Pelanggan> pelanggan) {
+        List<UUID> pelanggans = new ArrayList<UUID>();
+        for (Pelanggan p : pelanggan) {
+            pelanggans.add(p.getPelangganId());
+        }
+        UUID[] pelId = pelanggans.toArray(new UUID[0]);
+        return pelId;
     }
 
     private void deleteChildPelanggan(List<Pelanggan> pelanggan) {

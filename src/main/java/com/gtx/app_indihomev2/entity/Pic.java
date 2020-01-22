@@ -1,6 +1,5 @@
 package com.gtx.app_indihomev2.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,6 +29,6 @@ public class Pic implements Serializable {
     @Size(max = 50)
     private String nama;
 
-    @OneToMany(mappedBy = "pic", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pic", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pelanggan> pelanggan;
 }
